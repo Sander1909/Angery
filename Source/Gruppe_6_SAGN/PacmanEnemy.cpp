@@ -62,99 +62,139 @@ void APacmanEnemy::Tick(float DeltaTime)
 		switch (MovementMode)
 		{
 		case 1:
+
+			if (GetActorLocation().X > 2000)
+			{
+				MovementMode = Mode1[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveUp();
 
 			if (SwitchMode > 1.0f)
 			{
-				if (GetActorLocation().X > 2000)
+				//Er Pacman ved høyrevegg? Gå til venstre.
+				if (GetActorLocation().Y > 2000)
 				{
-					MovementMode = 2;
+					MovementMode = 3;
 					SwitchMode = 0.0f;
-					UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
 				}
+
+				//Er Pacman ved venstrevegg? Gå til høyre.
+				else if (GetActorLocation().Y < -2000)
+				{
+					MovementMode = 4;
+					SwitchMode = 0.0f;
+				}
+
 				else
 				{
 					MovementMode = Mode1[rand() % 2];
-					UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
 					SwitchMode = 0.0f;
 				}
-
 			}
 
 			break;
 
 		case 2:
 
+			if (GetActorLocation().X < -2000)
+			{
+				MovementMode = Mode2[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveDown();
-
-
 
 			if (SwitchMode > 1.0f)
 			{
-				if (SwitchMode > 1.0f)
+				//Er Pacman ved høyrevegg? Gå til venstre.
+				if (GetActorLocation().Y > 2000)
 				{
-					if (GetActorLocation().X < -2000)
-					{
-						MovementMode = 1;
-						SwitchMode = 0.0f;
-						UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
-					}
-
-					else
-					{
-						MovementMode = Mode2[rand() % 2];
-						UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
-
-						SwitchMode = 0.0f;
-					}
+					MovementMode = 3;
+					SwitchMode = 0.0f;
 				}
+
+				//Er Pacman ved venstrevegg? Gå til høyre.
+				else if (GetActorLocation().Y < -2000)
+				{
+					MovementMode = 4;
+					SwitchMode = 0.0f;
+				}
+
+				else
+				{
+					MovementMode = Mode2[rand() % 2];
+					SwitchMode = 0.0f;
+				}
+			}
 				break;
 
 		case 3:
+
+			if (GetActorLocation().Y < -2000)
+			{
+				MovementMode = Mode3[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveLeft();
 
 			if (SwitchMode > 1.0f)
 			{
-				if (GetActorLocation().Y < -2000)
+				//Er Pacman ved øvre vegg? Gå ned.
+				if (GetActorLocation().X > 2000)
 				{
-					MovementMode = 4;
+					MovementMode = 2;
 					SwitchMode = 0.0f;
-					UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
 				}
+
+				//Er Pacman ved nedre vegg? Gå opp.
+				else if (GetActorLocation().X < -2000)
+				{
+					MovementMode = 1;
+					SwitchMode = 0.0f;
+				}
+
 				else
 				{
-
 					MovementMode = Mode3[rand() % 2];
-					UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
-
 					SwitchMode = 0.0f;
 				}
 			}
 			break;
 
 		case 4:
+
+			if (GetActorLocation().Y > 2000)
+			{
+				MovementMode = Mode4[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveRight();
 
 			if (SwitchMode > 1.0f)
 			{
-				if (GetActorLocation().Y > 2000)
+				//Er Pacman ved øvre vegg? Gå ned.
+				if (GetActorLocation().X > 2000)
 				{
-					MovementMode = 3;
+					MovementMode = 2;
 					SwitchMode = 0.0f;
-					UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
 				}
+
+				//Er Pacman ved nedre vegg? Gå opp.
+				else if (GetActorLocation().X < -2000)
+				{
+					MovementMode = 1;
+					SwitchMode = 0.0f;
+				}
+
 				else
 				{
 					MovementMode = Mode4[rand() % 2];
-					UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
-
 					SwitchMode = 0.0f;
 				}
-
 			}
 			break;
 
@@ -166,9 +206,8 @@ void APacmanEnemy::Tick(float DeltaTime)
 			}
 
 		}
-	}
 	//If the enemy is hit by MeleeAttack, act accordingly.
-	else if (bHitByMelee)
+	if (bHitByMelee)
 	{
 		HitByMeleeTimer += DeltaTime;
 
