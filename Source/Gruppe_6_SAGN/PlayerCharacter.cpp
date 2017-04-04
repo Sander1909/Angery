@@ -143,7 +143,6 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	//TODO Putte inn invulnerabilityframes
 	//SetVisibility = true/false;
-	UE_LOG(LogTemp, Warning, TEXT("Player is."));
 
 	if (OtherActor->IsA(AStandardEnemyProjectile::StaticClass()))
 	{
@@ -225,12 +224,12 @@ void APlayerCharacter::SetPlayerRotation()
 
 void APlayerCharacter::StartCameraShake_Implementation()
 {
-	//Skriver noe her så Sanders ikke blir lei seg siden Funksjonen er ensom og tom på innsiden.
+	//Skriver noe her så Sander ikke blir lei seg siden funksjonen er ensom, tom og irritert på innsiden.
 }
 
 void APlayerCharacter::SpawnBulletRain()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Bullet Rain"));
+	//UE_LOG(LogTemp, Warning, TEXT("Bullet Rain"));
 	UWorld * World;
 
 	World = GetWorld();
