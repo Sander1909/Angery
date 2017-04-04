@@ -48,7 +48,7 @@ public:
 
 private:
 
-	float MovementValue = 2.0f;
+	float MovementValue = 20.0f;
 
 	float BulletWaveTimer;
 

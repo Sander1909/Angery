@@ -126,6 +126,8 @@ void ABossEnemy::SpawnBulletWave(float DeltaTime)
 
 	FVector Location = GetActorLocation();
 
+	Location.Z = 10.0f;
+
 	BulletWaveTimer += DeltaTime;
 
 	if (BulletWaveTimer > 1.0f)
