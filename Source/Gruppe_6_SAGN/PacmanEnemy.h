@@ -67,7 +67,7 @@ private:
 	float SpawnTimer;
 	
 	int PowerUpRoll = 0;
-	int PowerUpProbability = 85;
+	int PowerUpProbability = 90;
 	int MaxPowerUpTypes = 3;
 
 	int Mode1[2] = {3,4};
