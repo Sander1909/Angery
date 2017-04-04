@@ -5,6 +5,8 @@
 #include "PlayerMeleeAttack.h"
 #include "PlayerProjectile.h"
 #include "SpinningMeleeEnemyAttack.h"
+#include "P_Up_BulletRain.h"
+#include "P_Up_FullHealth.h"
 
 
 // Sets default values
@@ -156,7 +158,45 @@ void ASpinningMeleeEnemy::SpawnAttack(float DeltaTime)
 		SwitchModeTimer = 0.0f;
 		EnemyMode = 1;
 	}
+}
 
+void ASpinningMeleeEnemy::SpawnPowerUp()
+{
+	UWorld * World;
+
+	World = GetWorld();
+
+	FVector Location = GetActorLocation();
+	Location.Z = 100.0f;
+
+	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
+
+	PowerUpRoll = rand() % 100 + 1;
+	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
+	if (PowerUpRoll > PowerUpProbability)
+	{
+		MaxPowerUpTypes = rand() % 2 + 1;
+		switch (MaxPowerUpTypes)
+		{
+		case 1:
+
+			World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, FRotator::ZeroRotator);
+			break;
+
+		case 2:
+
+			World->SpawnActor<AP_Up_FullHealth>(P_Up_FullHealth_BP, Location, FRotator::ZeroRotator);
+			break;
+
+		case 3:
+
+			//Spawn neste PowerUp.
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 void ASpinningMeleeEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
@@ -169,6 +209,7 @@ void ASpinningMeleeEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AA
 		bHitByProjectile = true;
 		if (Health < 1)
 		{
+			SpawnPowerUp();
 			Destroy();
 		}
 		OtherActor->Destroy();

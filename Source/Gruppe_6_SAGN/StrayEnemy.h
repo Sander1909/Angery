@@ -21,13 +21,18 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	void RotateToPlayer();
-
 	void MoveForward(float DeltaTime);
-
 	void SpawnProjectile();
+	void SpawnPowerUp();
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AStandardEnemyProjectile> StandardEnemyProjectile_BP;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AP_Up_BulletRain> P_Up_BulletRain_BP;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AP_Up_FullHealth> P_Up_FullHealth_BP;
 
 	UFUNCTION()
 		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
@@ -50,10 +55,12 @@ private:
 
 	float HitByMeleeTimer;
 	float HitByProjectileTimer;
-
 	float MovementValue = 600.0f;
-
 	float ShootTimer;
+
+	int PowerUpRoll = 0;
+	int PowerUpProbability = 85;
+	int MaxPowerUpTypes = 3;
 
 	
 	

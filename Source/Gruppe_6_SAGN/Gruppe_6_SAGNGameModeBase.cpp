@@ -3,6 +3,7 @@
 #include "Gruppe_6_SAGN.h"
 #include "Gruppe_6_SAGNGameModeBase.h"
 #include "StandardEnemy.h"
+#include "SpinningMeleeEnemy.h"
 #include "PacmanEnemy.h"
 #include "RandomEnemy.h"
 #include "StrayEnemy.h"
@@ -37,7 +38,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			StandardSpawnTimer += DeltaTime;
 
-			if (StandardSpawnTimer > 2.0f && EnemiesSpawned < 15)
+			if (StandardSpawnTimer > 1.0f && EnemiesSpawned < 15)
 			{
 				SpawnStandardEnemy();
 				EnemiesSpawned++;
@@ -56,7 +57,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			StraySpawnTimer += DeltaTime;
 
-			if (StraySpawnTimer > 3.0f && EnemiesSpawned < 15)
+			if (StraySpawnTimer > 1.5f && EnemiesSpawned < 15)
 			{
 				SpawnStrayEnemy();
 				EnemiesSpawned++;
@@ -72,23 +73,15 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 		case 3:
 
-			StandardSpawnTimer += DeltaTime;
-			StraySpawnTimer += DeltaTime;
+			SpinningMeleeSpawnTimer += DeltaTime;
 
-			if (StandardSpawnTimer > 2.0f && EnemiesSpawned < 35)
+			if (SpinningMeleeSpawnTimer > 1.5f && EnemiesSpawned < 15)
 			{
-				SpawnStandardEnemy();
+				SpawnSpinningMeleeEnemy();
 				EnemiesSpawned++;
-				StandardSpawnTimer = 0.0f;
+				SpinningMeleeSpawnTimer = 0.0f;
 			}
-			if (StraySpawnTimer > 5.0f && EnemiesSpawned < 35)
-			{
-				SpawnStrayEnemy();
-				EnemiesSpawned++;
-				StraySpawnTimer = 0.0f;
-			}
-
-			if (EnemiesSpawned >= 35)
+			if (EnemiesSpawned >= 15)
 			{
 				WaveIntermission = true;
 				UE_LOG(LogTemp, Warning, TEXT("Third Round is OVER!"));
@@ -100,7 +93,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			PacmanSpawnTimer += DeltaTime;
 
-			if (PacmanSpawnTimer > 2.0f && EnemiesSpawned < 15)
+			if (PacmanSpawnTimer > 1.7f && EnemiesSpawned < 15)
 			{
 				SpawnPacmanEnemy();
 				EnemiesSpawned++;
@@ -199,6 +192,20 @@ void AGruppe_6_SAGNGameModeBase::SpawnStrayEnemy()
 
 	World->SpawnActor<AStrayEnemy>(StrayEnemy_BP, Location, NewDirection.Rotation());
 }
+
+void AGruppe_6_SAGNGameModeBase::SpawnSpinningMeleeEnemy()
+{
+	World = GetWorld();
+
+	FVector Location = FVector(SpawnValues[rand() % 2], SpawnValues[rand() % 2], 0.0f);
+
+	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+
+	FVector NewDirection = PlayerLocation - Location;
+
+	World->SpawnActor<ASpinningMeleeEnemy>(SpinningMeleeEnemy_BP, Location, NewDirection.Rotation());
+}
+
 
 void AGruppe_6_SAGNGameModeBase::SpawnBossEnemy()
 {

@@ -6,6 +6,7 @@
 #include "PlayerMeleeAttack.h"
 #include "PlayerProjectile.h"
 #include "P_Up_BulletRain.h"
+#include "P_Up_FullHealth.h"
 
 
 // Sets default values
@@ -325,22 +326,23 @@ void APacmanEnemy::SpawnPowerUp()
 	FVector Location = GetActorLocation();
 	Location.Z = 100.0f;
 
-	FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
+	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
 
-	PowerUpRoll = rand() % 100;
+	PowerUpRoll = rand() % 100 + 1;
+	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
 	if (PowerUpRoll > PowerUpProbability)
 	{
-		MaxPowerUpTypes = rand() % 3;
+		MaxPowerUpTypes = rand() % 2 + 1;
 		switch (MaxPowerUpTypes)
 		{
 		case 1:
-			UE_LOG(LogTemp, Warning, TEXT("Spawned a powerup."))
-				World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, P_Up_Rotation);
+
+			World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, FRotator::ZeroRotator);
 			break;
 
 		case 2:
 
-			//Spawn neste PowerUp.
+			World->SpawnActor<AP_Up_FullHealth>(P_Up_FullHealth_BP, Location, FRotator::ZeroRotator);
 			break;
 
 		case 3:

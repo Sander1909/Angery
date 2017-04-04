@@ -5,6 +5,8 @@
 #include "StandardEnemyProjectile.h"
 #include "PlayerMeleeAttack.h"
 #include "PlayerProjectile.h"
+#include "P_Up_BulletRain.h"
+#include "P_Up_FullHealth.h"
 
 
 // Sets default values
@@ -129,6 +131,45 @@ void AStrayEnemy::SpawnProjectile()
 
 }
 
+void AStrayEnemy::SpawnPowerUp()
+{
+	UWorld * World;
+
+	World = GetWorld();
+
+	FVector Location = GetActorLocation();
+	Location.Z = 100.0f;
+
+	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
+
+	PowerUpRoll = rand() % 100 + 1;
+	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
+	if (PowerUpRoll > PowerUpProbability)
+	{
+		MaxPowerUpTypes = rand() % 2 + 1;
+		switch (MaxPowerUpTypes)
+		{
+		case 1:
+
+			World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, FRotator::ZeroRotator);
+			break;
+
+		case 2:
+
+			World->SpawnActor<AP_Up_FullHealth>(P_Up_FullHealth_BP, Location, FRotator::ZeroRotator);
+			break;
+
+		case 3:
+
+			//Spawn neste PowerUp.
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
 void AStrayEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult &SweepResult)
@@ -138,7 +179,8 @@ void AStrayEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *Ot
 		Health--;
 		bHitByProjectile = true;
 		if (Health < 1)
-		{
+		{	
+			SpawnPowerUp();
 			Destroy();
 		}
 		OtherActor->Destroy();
