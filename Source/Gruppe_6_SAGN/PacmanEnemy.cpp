@@ -62,99 +62,139 @@ void APacmanEnemy::Tick(float DeltaTime)
 		switch (MovementMode)
 		{
 		case 1:
+
+			if (GetActorLocation().X > 2000)
+			{
+				MovementMode = Mode1[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveUp();
 
 			if (SwitchMode > 1.0f)
 			{
-				if (GetActorLocation().X > 2000)
+				//Er Pacman ved høyrevegg? Gå til venstre.
+				if (GetActorLocation().Y > 2000)
 				{
-					MovementMode = 2;
+					MovementMode = 3;
 					SwitchMode = 0.0f;
-					UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
 				}
+
+				//Er Pacman ved venstrevegg? Gå til høyre.
+				else if (GetActorLocation().Y < -2000)
+				{
+					MovementMode = 4;
+					SwitchMode = 0.0f;
+				}
+
 				else
 				{
 					MovementMode = Mode1[rand() % 2];
-					UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
 					SwitchMode = 0.0f;
 				}
-
 			}
 
 			break;
 
 		case 2:
 
+			if (GetActorLocation().X < -2000)
+			{
+				MovementMode = Mode2[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveDown();
-
-
 
 			if (SwitchMode > 1.0f)
 			{
-				if (SwitchMode > 1.0f)
+				//Er Pacman ved høyrevegg? Gå til venstre.
+				if (GetActorLocation().Y > 2000)
 				{
-					if (GetActorLocation().X < -2000)
-					{
-						MovementMode = 1;
-						SwitchMode = 0.0f;
-						UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
-					}
-
-					else
-					{
-						MovementMode = Mode2[rand() % 2];
-						UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
-
-						SwitchMode = 0.0f;
-					}
+					MovementMode = 3;
+					SwitchMode = 0.0f;
 				}
-				break;
+
+				//Er Pacman ved venstrevegg? Gå til høyre.
+				else if (GetActorLocation().Y < -2000)
+				{
+					MovementMode = 4;
+					SwitchMode = 0.0f;
+				}
+
+				else
+				{
+					MovementMode = Mode2[rand() % 2];
+					SwitchMode = 0.0f;
+				}
+			}
+			break;
 
 		case 3:
+
+			if (GetActorLocation().Y < -2000)
+			{
+				MovementMode = Mode3[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveLeft();
 
 			if (SwitchMode > 1.0f)
 			{
-				if (GetActorLocation().Y < -2000)
+				//Er Pacman ved øvre vegg? Gå ned.
+				if (GetActorLocation().X > 2000)
 				{
-					MovementMode = 4;
+					MovementMode = 2;
 					SwitchMode = 0.0f;
-					UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
 				}
+
+				//Er Pacman ved nedre vegg? Gå opp.
+				else if (GetActorLocation().X < -2000)
+				{
+					MovementMode = 1;
+					SwitchMode = 0.0f;
+				}
+
 				else
 				{
-
 					MovementMode = Mode3[rand() % 2];
-					UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
-
 					SwitchMode = 0.0f;
 				}
 			}
 			break;
 
 		case 4:
+
+			if (GetActorLocation().Y > 2000)
+			{
+				MovementMode = Mode4[rand() % 2];
+				SwitchMode = 0.0f;
+			}
+
 			MoveRight();
 
 			if (SwitchMode > 1.0f)
 			{
-				if (GetActorLocation().Y > 2000)
+				//Er Pacman ved øvre vegg? Gå ned.
+				if (GetActorLocation().X > 2000)
 				{
-					MovementMode = 3;
+					MovementMode = 2;
 					SwitchMode = 0.0f;
-					UE_LOG(LogTemp, Error, TEXT("Detected wall"));
-
 				}
+
+				//Er Pacman ved nedre vegg? Gå opp.
+				else if (GetActorLocation().X < -2000)
+				{
+					MovementMode = 1;
+					SwitchMode = 0.0f;
+				}
+
 				else
 				{
 					MovementMode = Mode4[rand() % 2];
-					UE_LOG(LogTemp, Warning, TEXT("MoveMode is: %i"), MovementMode);
-
 					SwitchMode = 0.0f;
 				}
-
 			}
 			break;
 
@@ -163,12 +203,11 @@ void APacmanEnemy::Tick(float DeltaTime)
 			UE_LOG(LogTemp, Error, TEXT("No movement selected"));
 
 			break;
-			}
-
 		}
+
 	}
 	//If the enemy is hit by MeleeAttack, act accordingly.
-	else if (bHitByMelee)
+	if (bHitByMelee)
 	{
 		HitByMeleeTimer += DeltaTime;
 
@@ -187,160 +226,160 @@ void APacmanEnemy::Tick(float DeltaTime)
 	}
 }
 
-	void APacmanEnemy::MoveUp()
+void APacmanEnemy::MoveUp()
+{
+	FVector MoveUp = FVector(1.0f, 0.0f, 0.0f);
+	//FRotator LookUp = FRotator(0.0f, 90.0f, 0.0f);
+	if (!bHitByProjectile)
 	{
-		FVector MoveUp = FVector(1.0f, 0.0f, 0.0f);
-		//FRotator LookUp = FRotator(0.0f, 90.0f, 0.0f);
-		if (!bHitByProjectile)
-		{
-			AddMovementInput(MoveUp, MovementValue);
-			SetActorRotation(MoveUp.Rotation());
-		}
-		else
-		{
-			AddMovementInput(-GetActorForwardVector(), MovementValue);
-		}
+		AddMovementInput(MoveUp, MovementValue);
+		SetActorRotation(MoveUp.Rotation());
+	}
+	else
+	{
+		AddMovementInput(-GetActorForwardVector(), MovementValue);
+	}
+}
+
+void APacmanEnemy::MoveDown()
+{
+	FVector MoveDown = FVector(-1.0f, 0.0f, 0.0f);
+
+	if (!bHitByProjectile)
+	{
+		AddMovementInput(MoveDown, MovementValue);
+		SetActorRotation(MoveDown.Rotation());
+	}
+	else
+	{
+		AddMovementInput(-GetActorForwardVector(), MovementValue);
+	}
+}
+
+void APacmanEnemy::MoveLeft()
+{
+	FVector MoveLeft = FVector(0.0f, -1.0f, 0.0f);
+
+	if (!bHitByProjectile)
+	{
+		AddMovementInput(MoveLeft, MovementValue);
+		SetActorRotation(MoveLeft.Rotation());
+	}
+	else
+	{
+		AddMovementInput(-GetActorForwardVector(), MovementValue);
+	}
+}
+
+void APacmanEnemy::MoveRight()
+{
+	FVector MoveRight = FVector(0.0f, 1.0f, 0.0f);
+
+	if (!bHitByProjectile)
+	{
+		AddMovementInput(MoveRight, MovementValue);
+		SetActorRotation(MoveRight.Rotation());
+	}
+	else
+	{
+		AddMovementInput(-GetActorForwardVector(), MovementValue);
 	}
 
-	void APacmanEnemy::MoveDown()
-	{
-		FVector MoveDown = FVector(-1.0f, 0.0f, 0.0f);
+}
 
-		if (!bHitByProjectile)
-		{
-			AddMovementInput(MoveDown, MovementValue);
-			SetActorRotation(MoveDown.Rotation());
-		}
-		else
-		{
-			AddMovementInput(-GetActorForwardVector(), MovementValue);
-		}
+void APacmanEnemy::RotateToPlayer()
+{
+	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+
+	FVector NewDirection = PlayerLocation - GetActorLocation();
+
+	SetActorRotation(NewDirection.Rotation());
+
+}
+
+void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
+{
+	UWorld * World;
+
+	World = GetWorld();
+
+	SpawnTimer += DeltaTime;
+
+	FVector Location = GetActorLocation();
+	Location.Z = 10.0f;
+
+	if (SpawnTimer > 0.3f)
+	{
+		World->SpawnActor<AStaticProjectile>(StaticProjectile_BP, Location, FRotator::ZeroRotator);
+		SpawnTimer = 0.0f;
 	}
 
-	void APacmanEnemy::MoveLeft()
+}
+
+void APacmanEnemy::SpawnPowerUp()
+{
+	UWorld * World;
+
+	World = GetWorld();
+
+	FVector Location = GetActorLocation();
+	Location.Z = 100.0f;
+
+	FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
+
+	PowerUpRoll = rand() % 100;
+	if (PowerUpRoll > PowerUpProbability)
 	{
-		FVector MoveLeft = FVector(0.0f, -1.0f, 0.0f);
-
-		if (!bHitByProjectile)
+		MaxPowerUpTypes = rand() % 3;
+		switch (MaxPowerUpTypes)
 		{
-			AddMovementInput(MoveLeft, MovementValue);
-			SetActorRotation(MoveLeft.Rotation());
-		}
-		else
-		{
-			AddMovementInput(-GetActorForwardVector(), MovementValue);
-		}
-	}
-
-	void APacmanEnemy::MoveRight()
-	{
-		FVector MoveRight = FVector(0.0f, 1.0f, 0.0f);
-
-		if (!bHitByProjectile)
-		{
-			AddMovementInput(MoveRight, MovementValue);
-			SetActorRotation(MoveRight.Rotation());
-		}
-		else
-		{
-			AddMovementInput(-GetActorForwardVector(), MovementValue);
-		}
-
-	}
-
-	void APacmanEnemy::RotateToPlayer()
-	{
-		FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-
-		FVector NewDirection = PlayerLocation - GetActorLocation();
-
-		SetActorRotation(NewDirection.Rotation());
-
-	}
-
-	void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
-	{
-		UWorld * World;
-
-		World = GetWorld();
-
-		SpawnTimer += DeltaTime;
-
-		FVector Location = GetActorLocation();
-		Location.Z = 10.0f;
-
-		if (SpawnTimer > 0.3f)
-		{
-			World->SpawnActor<AStaticProjectile>(StaticProjectile_BP, Location, FRotator::ZeroRotator);
-			SpawnTimer = 0.0f;
-		}
-
-	}
-
-	void APacmanEnemy::SpawnPowerUp()
-	{
-		UWorld * World;
-
-		World = GetWorld();
-
-		FVector Location = GetActorLocation();
-		Location.Z = 100.0f;
-
-		FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
-
-		PowerUpRoll = rand() % 100;
-		if (PowerUpRoll > PowerUpProbability)
-		{
-			MaxPowerUpTypes = rand() % 3;
-			switch (MaxPowerUpTypes)
-			{
-			case 1:
-				UE_LOG(LogTemp, Warning, TEXT("Spawned a powerup."))
+		case 1:
+			UE_LOG(LogTemp, Warning, TEXT("Spawned a powerup."))
 				World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, P_Up_Rotation);
-				break;
+			break;
 
-			case 2:
+		case 2:
 
-				//Spawn neste PowerUp.
-				break;
+			//Spawn neste PowerUp.
+			break;
 
-			case 3:
+		case 3:
 
-				//Spawn neste PowerUp.
-				break;
+			//Spawn neste PowerUp.
+			break;
 
-			default:
-				break;
-			}
+		default:
+			break;
 		}
 	}
+}
 
-	void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
-		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
-		bool bFromSweep, const FHitResult &SweepResult)
+void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
+	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
+	bool bFromSweep, const FHitResult &SweepResult)
+{
+	if (OtherActor->IsA(APlayerProjectile::StaticClass()))
 	{
-		if (OtherActor->IsA(APlayerProjectile::StaticClass()))
+		Health--;
+		bHitByProjectile = true;
+		if (Health < 1)
 		{
-			Health--;
-			bHitByProjectile = true;
-			if (Health < 1)
-			{
-				//SpawnPowerUp();
-				Destroy();
-			}
-			OtherActor->Destroy();
+			//SpawnPowerUp();
+			Destroy();
 		}
-		else if (OtherActor->IsA(APlayerMeleeAttack::StaticClass()))
-		{
-			//Health--;
-			if (Health < 1)
-			{
-				Destroy();
-			}
-
-			//UE_LOG(LogTemp, Warning, TEXT("PacmanEnemy was hit by PlayerMeleeAttack"));
-			bHitByMelee = true;
-			HitByMeleeTimer = 0.0f;
-
-		}
+		OtherActor->Destroy();
 	}
+	else if (OtherActor->IsA(APlayerMeleeAttack::StaticClass()))
+	{
+		//Health--;
+		if (Health < 1)
+		{
+			Destroy();
+		}
+
+		//UE_LOG(LogTemp, Warning, TEXT("PacmanEnemy was hit by PlayerMeleeAttack"));
+		bHitByMelee = true;
+		HitByMeleeTimer = 0.0f;
+
+	}
+}
