@@ -127,7 +127,7 @@ void AStandardEnemy::SpawnProjectile(float DeltaTime)
 
 	ShootTimer += DeltaTime;
 
-	if (ShootTimer >= 1.5f)
+	if (ShootTimer >= 0.8f)
 	{
 		World->SpawnActor<AStandardEnemyProjectile>(StandardEnemyProjectile_BP, Location, GetActorRotation());
 		ShootTimer = 0.0f;

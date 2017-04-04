@@ -21,7 +21,7 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 
 	Super::BeginPlay();
 	//Wave 6 gjør at spillet kan testes uten spawning.
-	//WaveNumber = 4;
+	//WaveNumber = 5;
 
 }
 
@@ -38,7 +38,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			StandardSpawnTimer += DeltaTime;
 
-			if (StandardSpawnTimer > 1.0f && EnemiesSpawned < 15)
+			if (StandardSpawnTimer > 1.5f && EnemiesSpawned < 15)
 			{
 				SpawnStandardEnemy();
 				EnemiesSpawned++;
@@ -57,7 +57,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			StraySpawnTimer += DeltaTime;
 
-			if (StraySpawnTimer > 1.5f && EnemiesSpawned < 15)
+			if (StraySpawnTimer > 2.5f && EnemiesSpawned < 15)
 			{
 				SpawnStrayEnemy();
 				EnemiesSpawned++;
@@ -75,7 +75,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			SpinningMeleeSpawnTimer += DeltaTime;
 
-			if (SpinningMeleeSpawnTimer > 1.5f && EnemiesSpawned < 15)
+			if (SpinningMeleeSpawnTimer > 2.5f && EnemiesSpawned < 15)
 			{
 				SpawnSpinningMeleeEnemy();
 				EnemiesSpawned++;
@@ -197,7 +197,7 @@ void AGruppe_6_SAGNGameModeBase::SpawnSpinningMeleeEnemy()
 {
 	World = GetWorld();
 
-	FVector Location = FVector(SpawnValues[rand() % 2], SpawnValues[rand() % 2], 0.0f);
+	FVector Location = FVector(PacmanSpawnValues[rand() % 2], PacmanSpawnValues[rand() % 2], 0.0f);
 
 	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
