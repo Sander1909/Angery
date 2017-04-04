@@ -62,7 +62,7 @@ private:
 
 	int EnemyMode = 1;
 	int PowerUpRoll = 0;
-	int PowerUpProbability = 85;
+	int PowerUpProbability = 90;
 	int MaxPowerUpTypes = 3;
 
 };
