@@ -3,6 +3,7 @@
 #include "Gruppe_6_SAGN.h"
 #include "Gruppe_6_SAGNGameModeBase.h"
 #include "StandardEnemy.h"
+#include "SpinningMeleeEnemy.h"
 #include "PacmanEnemy.h"
 #include "RandomEnemy.h"
 #include "StrayEnemy.h"
@@ -20,7 +21,7 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 
 	Super::BeginPlay();
 	//Wave 6 gjør at spillet kan testes uten spawning.
-	WaveNumber = 4;
+	//WaveNumber = 4;
 
 }
 
@@ -37,7 +38,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			StandardSpawnTimer += DeltaTime;
 
-			if (StandardSpawnTimer > 2.0f && EnemiesSpawned < 15)
+			if (StandardSpawnTimer > 1.0f && EnemiesSpawned < 15)
 			{
 				SpawnStandardEnemy();
 				EnemiesSpawned++;
@@ -55,14 +56,21 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 		case 2:
 
 			StraySpawnTimer += DeltaTime;
+			StandardSpawnTimer += DeltaTime;
 
-			if (StraySpawnTimer > 3.0f && EnemiesSpawned < 15)
+			if (StraySpawnTimer > 3.0f && EnemiesSpawned < 30)
 			{
 				SpawnStrayEnemy();
 				EnemiesSpawned++;
 				StraySpawnTimer = 0.0f;
 			}
-			if (EnemiesSpawned >= 15)
+			if (StandardSpawnTimer > 2.5f && EnemiesSpawned < 30)
+			{
+				SpawnStandardEnemy();
+				EnemiesSpawned++;
+				StandardSpawnTimer = 0.0f;
+			}
+			if (EnemiesSpawned >= 30)
 			{
 				WaveIntermission = true;
 				UE_LOG(LogTemp, Warning, TEXT("Second Round is OVER!"));
@@ -74,6 +82,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			StandardSpawnTimer += DeltaTime;
 			StraySpawnTimer += DeltaTime;
+			SpinningMeleeSpawnTimer += DeltaTime;
 
 			if (StandardSpawnTimer > 2.0f && EnemiesSpawned < 35)
 			{

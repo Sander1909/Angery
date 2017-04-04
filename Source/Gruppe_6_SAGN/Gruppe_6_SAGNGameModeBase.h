@@ -25,6 +25,9 @@ public:
 		TSubclassOf<class AStandardEnemy> StandardEnemy_BP;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class ASpinningMeleeEnemy> SpinningMeleeEnemy_BP;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class APacmanEnemy> PacmanEnemy_BP;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
@@ -62,8 +65,7 @@ private:
 	float StandardSpawnTimer;
 	float StraySpawnTimer;
 	float PacmanSpawnTimer;
-	float SpinningMeleeTimer;
-	float RandomEnemyTimer;
+	float SpinningMeleeSpawnTimer;
 	
 	
 };
