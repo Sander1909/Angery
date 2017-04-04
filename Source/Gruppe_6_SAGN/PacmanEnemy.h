@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AP_Up_BulletRain> P_Up_BulletRain_BP;
 
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AP_Up_FullHealth> P_Up_FullHealth_BP;
+
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
 		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
@@ -64,7 +67,7 @@ private:
 	float SpawnTimer;
 	
 	int PowerUpRoll = 0;
-	int PowerUpProbability = 70;
+	int PowerUpProbability = 85;
 	int MaxPowerUpTypes = 3;
 
 	int Mode1[2] = {3,4};

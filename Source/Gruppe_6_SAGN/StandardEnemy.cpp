@@ -157,6 +157,7 @@ void AStandardEnemy::SpawnPowerUp()
 	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
 
 	PowerUpRoll = rand() % 100 + 1;
+	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
 	if (PowerUpRoll > PowerUpProbability)
 	{	
 		MaxPowerUpTypes = rand() % 2 + 1;
