@@ -57,9 +57,9 @@ private:
 	float SpawnValues[2]{ 2000.0f, -2000.0f };
 	float PacmanSpawnValues[2]{ 1000.0f, -1000.0f };
 
-	bool WaveIntermission = false;
+	bool WaveIntermission = true;
 
-	int WaveNumber = 1;
+	int WaveNumber = 0;
 	int EnemiesSpawned = 0;
 
 	float WaveTimer;

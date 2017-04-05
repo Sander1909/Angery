@@ -10,6 +10,7 @@
 #include "SpinningMeleeEnemyAttack.h"
 #include "P_Up_Bulletrain.h"
 #include "P_Up_FullHealth.h"
+#include "P_Up_FireRate.h"
 
 
 // Sets default values
@@ -54,6 +55,38 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 	SetPlayerRotation();
 
+	if (bIFrame)
+	{
+		IFrameTimer += DeltaTime;
+		if (IFrameTimer >= 1.0f)
+		{
+			bIFrame = false;
+			IFrameTimer = 0.0f;
+		}
+	}
+
+	if (bIsShooting)
+	{
+		ShootTimer += DeltaTime;
+
+		if (ShootTimer >= FireRate)
+		{
+			Shoot();
+			ShootTimer = 0.0f;
+		}
+	}
+
+	if (bIsFireRate)
+	{
+		FireRateTimer += DeltaTime;
+		if (FireRateTimer >= 10.0f)
+		{
+			bIsFireRate = false;
+			FireRate = 0.2f;
+			FireRateTimer = 0.0f;
+		}
+	}
+
 	if (bMeleeDash)
 	{
 		MeleeDashTimer += DeltaTime;
@@ -76,6 +109,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 		InputComponent->BindAction("Shoot", IE_Pressed, this, &APlayerCharacter::Shoot);
+		InputComponent->BindAction("Shoot", IE_Released, this, &APlayerCharacter::StopShoot);
 		InputComponent->BindAction("Melee", IE_Pressed, this, &APlayerCharacter::Melee);
 
 		InputComponent->BindAxis("MoveX", this, &APlayerCharacter::MoveX);
@@ -95,11 +129,17 @@ void APlayerCharacter::Shoot()
 
 		if (World)
 		{
+			bIsShooting = true;
 			UGameplayStatics::PlaySound2D(World, OnPlayerShootSound, 0.05f, 1.0f, 0.0f);
+			StartMinorCameraShake();
 			World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
 		}
 	}
+}
 
+void APlayerCharacter::StopShoot()
+{
+	bIsShooting = false;
 }
 
 void APlayerCharacter::Melee()
@@ -146,33 +186,49 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	if (OtherActor->IsA(AStandardEnemyProjectile::StaticClass()))
 	{
-		Health--;
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
-		StartCameraShake();
+		if (!bMeleeDash && !bIFrame)
+		{
+			bIFrame = true;
+			Health--;
+			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
+			StartCameraShake();
+		}
 		OtherActor->Destroy();
 	}
 
 	if (OtherActor->IsA(ASpinningMeleeEnemyAttack::StaticClass()))
 	{
-		Health--;
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
-		StartCameraShake();
+		if (!bMeleeDash && !bIFrame)
+		{
+			bIFrame = true;
+			Health--;
+			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
+			StartCameraShake();
+		}
 		OtherActor->Destroy();
 	}
 
 	else if (OtherActor->IsA(ACurvingBossBullet::StaticClass()))
 	{
-		Health--;
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
-		StartCameraShake();
+		if (!bMeleeDash && !bIFrame)
+		{
+			bIFrame = true;
+			Health--;
+			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
+			StartCameraShake();
+		}
 		OtherActor->Destroy();
 	}
 
 	else if (OtherActor->IsA(AStaticProjectile::StaticClass()))
 	{
-		Health--;
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
-		StartCameraShake();
+		if (!bMeleeDash && !bIFrame)
+		{
+			bIFrame = true;
+			Health--;
+			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
+			StartCameraShake();
+		}
 		OtherActor->Destroy();
 	}
 
@@ -187,6 +243,13 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
 		CharacterFullHealth();
+		OtherActor->Destroy();
+	}
+
+	else if (OtherActor->IsA(AP_Up_FireRate::StaticClass()))
+	{
+		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
+		BoostFireRate();
 		OtherActor->Destroy();
 	}
 
@@ -227,6 +290,11 @@ void APlayerCharacter::StartCameraShake_Implementation()
 	//Skriver noe her så Sander ikke blir lei seg siden funksjonen er ensom, tom og irritert på innsiden.
 }
 
+void APlayerCharacter::StartMinorCameraShake_Implementation()
+{
+	// :)
+}
+
 void APlayerCharacter::SpawnBulletRain()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Bullet Rain"));
@@ -238,7 +306,7 @@ void APlayerCharacter::SpawnBulletRain()
 	{
 		for(int x = Heigth; x > 1350; x -= 100)
 		{
-			World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, FVector(x, y, 10.0f), FVector(-1.0f, 0.0f, 0.0f).Rotation());
+			World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, FVector(x, y, 30.0f), FVector(-1.0f, 0.0f, 0.0f).Rotation());
 		}
 	}
 }
@@ -246,4 +314,10 @@ void APlayerCharacter::SpawnBulletRain()
 void APlayerCharacter::CharacterFullHealth()
 {
 	Health = MaxHealth;
+}
+
+void APlayerCharacter::BoostFireRate()
+{
+	bIsFireRate = true;
+	FireRate = 0.1;
 }
