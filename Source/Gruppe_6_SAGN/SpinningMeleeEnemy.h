@@ -28,7 +28,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		UShapeComponent * CollisionBox = nullptr;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class ASpinningMeleeEnemyAttack> SpinningMeleeEnemyAttack_BP;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
@@ -36,6 +36,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AP_Up_FullHealth> P_Up_FullHealth_BP;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AP_Up_FireRate> P_Up_FireRate_BP;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
@@ -63,6 +66,6 @@ private:
 	int EnemyMode = 1;
 	int PowerUpRoll = 0;
 	int PowerUpProbability = 90;
-	int MaxPowerUpTypes = 3;
+	int MaxPowerUpTypes;
 
 };

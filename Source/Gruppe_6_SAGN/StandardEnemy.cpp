@@ -7,6 +7,7 @@
 #include "PlayerMeleeAttack.h"
 #include "P_Up_BulletRain.h"
 #include "P_Up_FullHealth.h"
+#include "P_Up_FireRate.h"
 
 AStandardEnemy::AStandardEnemy()
 {
@@ -160,7 +161,7 @@ void AStandardEnemy::SpawnPowerUp()
 	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
 	if (PowerUpRoll > PowerUpProbability)
 	{	
-		MaxPowerUpTypes = rand() % 2 + 1;
+		MaxPowerUpTypes = rand() % 3 + 1;
 		switch (MaxPowerUpTypes)
 		{
 		case 1:
@@ -175,7 +176,7 @@ void AStandardEnemy::SpawnPowerUp()
 
 		case 3:
 
-			//Spawn neste PowerUp.
+			World->SpawnActor<AP_Up_FireRate>(P_Up_FireRate_BP, Location, FRotator::ZeroRotator);
 			break;
 
 		default:

@@ -37,6 +37,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AP_Up_FullHealth> P_Up_FullHealth_BP;
 
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AP_Up_FireRate> P_Up_FireRate_BP;
+
 	UFUNCTION()
 		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
 			UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
@@ -65,7 +68,7 @@ private:
 	int EnemyMode = 1;
 	int PowerUpRoll = 0;
 	int PowerUpProbability = 90;
-	int MaxPowerUpTypes = 3;
+	int MaxPowerUpTypes;
 
 	//EnemyMode 1: Chase and rotate towards player
 	//EnemyMode 2: Stand still and shoot towards player

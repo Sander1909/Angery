@@ -26,14 +26,17 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void Shoot();
+	void StopShoot();
 	void Melee();
 
 	void MoveX(float Value);
 	void MoveY(float Value);
 
 	void SetPlayerRotation();
+
 	void SpawnBulletRain();
 	void CharacterFullHealth();
+	void BoostFireRate();
 
 	UPROPERTY(BlueprintAssignable)
 		FOnPlayerHit OnPlayerHit;
@@ -55,6 +58,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "CameraShake")
 		void StartCameraShake();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "CameraShake")
+		void StartMinorCameraShake();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 		int Health = 10;
 
@@ -74,11 +80,18 @@ private:
 
 	float MeleeDashTimer;
 	float Speed = 1000.0f;
+	float ShootTimer;
+	float FireRate = 0.2f;
+	float FireRateTimer;
+	float IFrameTimer;
 
 	int Width = 2450;
 	int Heigth = 2050;
 
 	bool bIsDead = false;
 	bool bMeleeDash = false;
+	bool bIsShooting = false;
+	bool bIsFireRate = false;
+	bool bIFrame = false;
 
 };
