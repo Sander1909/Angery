@@ -25,7 +25,6 @@ public:
 	void MoveLeft();
 	void MoveRight();
 
-	void RotateToPlayer();
 	void SpawnStaticProjectile(float DeltaTime);
 	void SpawnPowerUp();
 
@@ -69,6 +68,11 @@ private:
 	float SwitchMode;
 	float SpawnTimer;
 	
+	float UpperX = 2000.0f;
+	float LowerX = -2000.0f;
+	float UpperY = 3800.0f;
+	float LowerY = -3800.0f;
+
 	int PowerUpRoll = 0;
 	int PowerUpProbability = 90;
 	int MaxPowerUpTypes;

@@ -56,6 +56,11 @@ private:
 	bool bHitByMelee = false;
 	bool bHitByProjectile = false;
 
+	float UpperX = 2000.0f;
+	float LowerX = -2000.0f;
+	float UpperY = 3800.0f;
+	float LowerY = -3800.0f;
+
 	float HitByMeleeTimer;
 	float HitByProjectileTimer;
 	float MovementValue = 600.0f;

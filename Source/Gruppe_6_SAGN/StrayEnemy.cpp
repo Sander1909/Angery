@@ -49,6 +49,11 @@ void AStrayEnemy::Tick( float DeltaTime )
 			bHitByProjectile = false;
 		}
 	}
+
+	if (GetActorLocation().X > UpperX || GetActorLocation().X < LowerX || GetActorLocation().Y > UpperY || GetActorLocation().Y < LowerY)
+	{
+		RotateToPlayer();
+	}
 	//Default mode guard.
 	if (!bHitByMelee)
 	{
@@ -76,7 +81,7 @@ void AStrayEnemy::Tick( float DeltaTime )
 		}
 		else if (HitByMeleeTimer >= 0.5f)
 		{
-			if (HitByMeleeTimer > 1.5f)
+			if (HitByMeleeTimer > 0.9f)
 			{
 				HitByMeleeTimer = 0.0f;
 				bHitByMelee = false;
@@ -185,15 +190,14 @@ void AStrayEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *Ot
 		}
 		OtherActor->Destroy();
 	}
-	else if (OtherActor->IsA(APlayerMeleeAttack::StaticClass()))
+	else if (OtherActor->IsA(APlayerMeleeAttack::StaticClass()) && !bHitByMelee)
 	{
-		//Health--;
+		Health--;
 		if (Health < 1)
 		{
 			Destroy();
 		}
-
-		//UE_LOG(LogTemp, Warning, TEXT("StrayEnemy was hit by PlayerMeleeAttack"));
+		
 		bHitByMelee = true;
 		HitByMeleeTimer = 0.0f;
 

@@ -99,6 +99,17 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	if (bMeleeDelay)
+	{
+		MeleeDelayTimer += DeltaTime;
+
+		if (MeleeDelayTimer > 1.0f)
+		{
+			MeleeDelayTimer = 0.0f;
+			bMeleeDelay = false;
+		}
+	}
+
 	//UE_LOG(LogTemp, Warning, TEXT("Player Health is %i"), Health);
 
 }
@@ -144,7 +155,7 @@ void APlayerCharacter::StopShoot()
 
 void APlayerCharacter::Melee()
 {
-	if (!bIsDead)
+	if (!bIsDead && !bMeleeDelay)
 	{
 		UWorld * World;
 
@@ -152,8 +163,9 @@ void APlayerCharacter::Melee()
 
 		if (World)
 		{
-			bMeleeDash = true;
 			World->SpawnActor<APlayerMeleeAttack>(PlayerMeleeAttack_BP, GetActorLocation(), FRotator::ZeroRotator);
+			bMeleeDash = true;
+			bMeleeDelay = true;
 		}
 	}
 }

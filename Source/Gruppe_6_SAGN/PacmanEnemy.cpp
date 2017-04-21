@@ -65,7 +65,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 		{
 		case 1:
 
-			if (GetActorLocation().X > 2000)
+			if (GetActorLocation().X > UpperX)
 			{
 				MovementMode = Mode1[rand() % 2];
 				SwitchMode = 0.0f;
@@ -76,14 +76,14 @@ void APacmanEnemy::Tick(float DeltaTime)
 			if (SwitchMode > 1.0f)
 			{
 				//Er Pacman ved høyrevegg? Gå til venstre.
-				if (GetActorLocation().Y > 2000)
+				if (GetActorLocation().Y > UpperY)
 				{
 					MovementMode = 3;
 					SwitchMode = 0.0f;
 				}
 
 				//Er Pacman ved venstrevegg? Gå til høyre.
-				else if (GetActorLocation().Y < -2000)
+				else if (GetActorLocation().Y < LowerY)
 				{
 					MovementMode = 4;
 					SwitchMode = 0.0f;
@@ -100,7 +100,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 
 		case 2:
 
-			if (GetActorLocation().X < -2000)
+			if (GetActorLocation().X < LowerX)
 			{
 				MovementMode = Mode2[rand() % 2];
 				SwitchMode = 0.0f;
@@ -111,14 +111,14 @@ void APacmanEnemy::Tick(float DeltaTime)
 			if (SwitchMode > 1.0f)
 			{
 				//Er Pacman ved høyrevegg? Gå til venstre.
-				if (GetActorLocation().Y > 2000)
+				if (GetActorLocation().Y > UpperY)
 				{
 					MovementMode = 3;
 					SwitchMode = 0.0f;
 				}
 
 				//Er Pacman ved venstrevegg? Gå til høyre.
-				else if (GetActorLocation().Y < -2000)
+				else if (GetActorLocation().Y < LowerY)
 				{
 					MovementMode = 4;
 					SwitchMode = 0.0f;
@@ -134,7 +134,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 
 		case 3:
 
-			if (GetActorLocation().Y < -2000)
+			if (GetActorLocation().Y < LowerY)
 			{
 				MovementMode = Mode3[rand() % 2];
 				SwitchMode = 0.0f;
@@ -145,14 +145,14 @@ void APacmanEnemy::Tick(float DeltaTime)
 			if (SwitchMode > 1.0f)
 			{
 				//Er Pacman ved øvre vegg? Gå ned.
-				if (GetActorLocation().X > 2000)
+				if (GetActorLocation().X > UpperX)
 				{
 					MovementMode = 2;
 					SwitchMode = 0.0f;
 				}
 
 				//Er Pacman ved nedre vegg? Gå opp.
-				else if (GetActorLocation().X < -2000)
+				else if (GetActorLocation().X < LowerX)
 				{
 					MovementMode = 1;
 					SwitchMode = 0.0f;
@@ -168,7 +168,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 
 		case 4:
 
-			if (GetActorLocation().Y > 2000)
+			if (GetActorLocation().Y > UpperY)
 			{
 				MovementMode = Mode4[rand() % 2];
 				SwitchMode = 0.0f;
@@ -179,14 +179,14 @@ void APacmanEnemy::Tick(float DeltaTime)
 			if (SwitchMode > 1.0f)
 			{
 				//Er Pacman ved øvre vegg? Gå ned.
-				if (GetActorLocation().X > 2000)
+				if (GetActorLocation().X > UpperX)
 				{
 					MovementMode = 2;
 					SwitchMode = 0.0f;
 				}
 
 				//Er Pacman ved nedre vegg? Gå opp.
-				else if (GetActorLocation().X < -2000)
+				else if (GetActorLocation().X < LowerX)
 				{
 					MovementMode = 1;
 					SwitchMode = 0.0f;
@@ -289,16 +289,6 @@ void APacmanEnemy::MoveRight()
 
 }
 
-void APacmanEnemy::RotateToPlayer()
-{
-	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-
-	FVector NewDirection = PlayerLocation - GetActorLocation();
-
-	SetActorRotation(NewDirection.Rotation());
-
-}
-
 void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
 {
 	UWorld * World;
@@ -308,7 +298,7 @@ void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
 	SpawnTimer += DeltaTime;
 
 	FVector Location = GetActorLocation();
-	Location.Z = 10.0f;
+	Location.Z = 30.0f;
 
 	if (SpawnTimer > 0.3f)
 	{

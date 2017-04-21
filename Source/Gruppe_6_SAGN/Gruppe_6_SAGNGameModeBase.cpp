@@ -21,7 +21,7 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 
 	Super::BeginPlay();
 	//Wave 6 gjør at spillet kan testes uten spawning.
-	//WaveNumber = 3;
+	WaveNumber = 6;
 
 
 }

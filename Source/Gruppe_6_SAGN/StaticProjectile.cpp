@@ -30,5 +30,9 @@ void AStaticProjectile::Tick( float DeltaTime )
 	{
 		Destroy();
 	}
+
+	FRotator Temp = FRotator(0.0f, 1.0f, 0.0f) + GetActorRotation();
+
+	SetActorRotation(Temp);
 }
 

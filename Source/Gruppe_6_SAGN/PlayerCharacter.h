@@ -79,6 +79,7 @@ public:
 private:
 
 	float MeleeDashTimer;
+	float MeleeDelayTimer;
 	float Speed = 1000.0f;
 	float ShootTimer;
 	float FireRate = 0.2f;
@@ -90,6 +91,7 @@ private:
 
 	bool bIsDead = false;
 	bool bMeleeDash = false;
+	bool bMeleeDelay = false;
 	bool bIsShooting = false;
 	bool bIsFireRate = false;
 	bool bIFrame = false;
