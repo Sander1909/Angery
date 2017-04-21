@@ -49,6 +49,11 @@ void AStrayEnemy::Tick( float DeltaTime )
 			bHitByProjectile = false;
 		}
 	}
+
+	if (GetActorLocation().X > UpperX || GetActorLocation().X < LowerX || GetActorLocation().Y > UpperY || GetActorLocation().Y < LowerY)
+	{
+		RotateToPlayer();
+	}
 	//Default mode guard.
 	if (!bHitByMelee)
 	{

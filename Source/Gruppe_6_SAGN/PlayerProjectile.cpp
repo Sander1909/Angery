@@ -17,7 +17,7 @@ void APlayerProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CollisionBox = this->FindComponentByClass<USphereComponent>();
+	CollisionBox = this->FindComponentByClass<UCapsuleComponent>();
 
 	if (CollisionBox)
 	{
@@ -28,7 +28,6 @@ void APlayerProjectile::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("PlayerProjectile no collision box"));
 
 	}
-	
 }
 
 // Called every frame
@@ -45,11 +44,16 @@ void APlayerProjectile::Tick( float DeltaTime )
 		Destroy();
 	}
 
+	//FRotator Temp = FRotator(0.0f, 5.0f, 0.0f) + GetActorRotation();
+
+	//SetActorRotation(Temp);
 }
 
 void APlayerProjectile::SetProjectileLocation(float DeltaTime)
 {
 	FVector NewLocation = GetActorLocation() + GetActorForwardVector() * DeltaTime * Speed;
+
+	NewLocation.Z = 100.0f;
 
 	SetActorLocation(NewLocation);
 }
