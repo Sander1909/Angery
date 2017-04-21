@@ -39,14 +39,25 @@ void APlayerProjectile::Tick( float DeltaTime )
 
 	TimeToDestroy += DeltaTime;
 
-	if (TimeToDestroy > 15.0f)
+	if (TimeToDestroy > 10.0f)
 	{
 		Destroy();
 	}
 
-	//FRotator Temp = FRotator(0.0f, 5.0f, 0.0f) + GetActorRotation();
+	if (bCurvingBullet)
+	{
+		CurvingBulletTimer += DeltaTime;
 
-	//SetActorRotation(Temp);
+		FRotator Temp = FRotator(0.0f, 5.0f, 0.0f) + GetActorRotation();
+
+		SetActorRotation(Temp);
+
+		if (CurvingBulletTimer > 10.0f)
+		{
+			bCurvingBullet = false;
+			CurvingBulletTimer = 0.0f;
+		}
+	}
 }
 
 void APlayerProjectile::SetProjectileLocation(float DeltaTime)
@@ -66,5 +77,15 @@ void APlayerProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	if (OtherActor->IsRootComponentStatic())
 	{
 		Destroy();
+	}
+}
+
+void APlayerProjectile::SetCurvingBullet()
+{
+	bCurvingBullet = true;
+	UE_LOG(LogTemp, Warning, TEXT("Curving Bullet SET!"));
+	if (bCurvingBullet)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Curving Bullet is true!"))
 	}
 }

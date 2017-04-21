@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "PlayerProjectile.h"
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
@@ -76,6 +77,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* OnPowerUpSound;
 
+	class APlayerProjectile* PlayerProjectilePtr = nullptr;
+
 private:
 
 	float MeleeDashTimer;
@@ -85,6 +88,7 @@ private:
 	float FireRate = 0.2f;
 	float FireRateTimer;
 	float IFrameTimer;
+	float CurvingBulletTimer;
 
 	int Width = 2450;
 	int Heigth = 2050;
@@ -95,5 +99,6 @@ private:
 	bool bIsShooting = false;
 	bool bIsFireRate = false;
 	bool bIFrame = false;
+	bool bCurvingBullet = false;
 
 };
