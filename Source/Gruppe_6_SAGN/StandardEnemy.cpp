@@ -71,7 +71,7 @@ void AStandardEnemy::Tick( float DeltaTime )
 		}
 		else if (HitByMeleeTimer >= 0.5f)
 		{
-			if (HitByMeleeTimer > 1.5f)
+			if (HitByMeleeTimer > 0.9f)
 			{
 				HitByMeleeTimer = 0.0f;
 				bHitByMelee = false;
@@ -205,9 +205,9 @@ void AStandardEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor 
 
 		//UE_LOG(LogTemp, Warning, TEXT("StandardEnemy health is: %i"), Health);
 	}
-	else if (OtherActor->IsA(APlayerMeleeAttack::StaticClass()))
+	else if (OtherActor->IsA(APlayerMeleeAttack::StaticClass()) && !bHitByMelee)
 	{
-		//Health--;
+		Health--;
 		if (Health < 1)
 		{
 			Destroy();

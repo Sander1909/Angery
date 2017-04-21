@@ -289,16 +289,6 @@ void APacmanEnemy::MoveRight()
 
 }
 
-void APacmanEnemy::RotateToPlayer()
-{
-	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-
-	FVector NewDirection = PlayerLocation - GetActorLocation();
-
-	SetActorRotation(NewDirection.Rotation());
-
-}
-
 void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
 {
 	UWorld * World;
@@ -308,7 +298,7 @@ void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
 	SpawnTimer += DeltaTime;
 
 	FVector Location = GetActorLocation();
-	Location.Z = 10.0f;
+	Location.Z = 30.0f;
 
 	if (SpawnTimer > 0.3f)
 	{

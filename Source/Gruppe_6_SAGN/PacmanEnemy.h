@@ -25,7 +25,6 @@ public:
 	void MoveLeft();
 	void MoveRight();
 
-	void RotateToPlayer();
 	void SpawnStaticProjectile(float DeltaTime);
 	void SpawnPowerUp();
 
