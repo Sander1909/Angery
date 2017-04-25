@@ -20,8 +20,8 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 {
 
 	Super::BeginPlay();
-	//Wave 6 gjør at spillet kan testes uten spawning.
-	//WaveNumber = 4;
+	//Wave 7 gjør at spillet kan testes uten spawning.
+	//WaveNumber = 5;
 
 
 }
@@ -164,7 +164,16 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			if (EnemiesSpawned >= 40)
 			{
-				WaveIntermission = true;
+				WaveTimer += DeltaTime;
+				if (WaveTimer > 20.0f)
+				{
+					WaveNumber++;
+					WaveIntermission = false;
+					UE_LOG(LogTemp, Warning, TEXT("Next Wave had BEGUN!"));
+					WaveTimer = 0.0f;
+					EnemiesSpawned = 0;
+					UGameplayStatics::PlaySound2D(GetWorld(), OnNextWaveSound, 0.5f, 1.0f, 0.0f);
+				}
 				UE_LOG(LogTemp, Warning, TEXT("Fourth Round is OVER!"));
 			}
 
@@ -182,6 +191,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 			break;
 		}
 	}
+
 	else
 	{
 		WaveTimer += DeltaTime;
