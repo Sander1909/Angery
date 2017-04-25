@@ -85,7 +85,7 @@ private:
 	float IFrameTimer;
 	float CurvingBulletTimer;
 
-	int Width = 2450;
+	int Width = 3900;
 	int Heigth = 2050;
 
 	bool bIsDead = false;
