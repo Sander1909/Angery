@@ -21,7 +21,7 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 
 	Super::BeginPlay();
 	//Wave 6 gjør at spillet kan testes uten spawning.
-	WaveNumber = 6;
+	//WaveNumber = 4;
 
 
 }
@@ -57,14 +57,23 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 		case 2:
 
 			StraySpawnTimer += DeltaTime;
+			StandardSpawnTimer += DeltaTime;
 
-			if (StraySpawnTimer > 2.5f && EnemiesSpawned < 15)
+			if (StraySpawnTimer > 5.0f && EnemiesSpawned < 20)
 			{
 				SpawnStrayEnemy();
 				EnemiesSpawned++;
 				StraySpawnTimer = 0.0f;
 			}
-			if (EnemiesSpawned >= 15)
+
+			if (StandardSpawnTimer > 1.5f && EnemiesSpawned < 20)
+			{
+				SpawnStandardEnemy();
+				EnemiesSpawned++;
+				StandardSpawnTimer = 0.0f;
+			}
+
+			if (EnemiesSpawned >= 20)
 			{
 				WaveIntermission = true;
 				UE_LOG(LogTemp, Warning, TEXT("Second Round is OVER!"));
@@ -75,14 +84,23 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 		case 3:
 
 			SpinningMeleeSpawnTimer += DeltaTime;
+			StandardSpawnTimer += DeltaTime;
 
-			if (SpinningMeleeSpawnTimer > 2.5f && EnemiesSpawned < 15)
+			if (SpinningMeleeSpawnTimer > 3.5f && EnemiesSpawned < 20)
 			{
 				SpawnSpinningMeleeEnemy();
 				EnemiesSpawned++;
 				SpinningMeleeSpawnTimer = 0.0f;
 			}
-			if (EnemiesSpawned >= 15)
+
+			if (StandardSpawnTimer > 1.5f && EnemiesSpawned < 20)
+			{
+				SpawnStandardEnemy();
+				EnemiesSpawned++;
+				StandardSpawnTimer = 0.0f;
+			}
+
+			if (EnemiesSpawned >= 20)
 			{
 				WaveIntermission = true;
 				UE_LOG(LogTemp, Warning, TEXT("Third Round is OVER!"));
@@ -93,15 +111,23 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 		case 4:
 
 			PacmanSpawnTimer += DeltaTime;
+			StandardSpawnTimer += DeltaTime;
 
-			if (PacmanSpawnTimer > 1.7f && EnemiesSpawned < 15)
+			if (PacmanSpawnTimer > 3.0f && EnemiesSpawned < 20)
 			{
 				SpawnPacmanEnemy();
 				EnemiesSpawned++;
 				PacmanSpawnTimer = 0.0f;
 			}
 
-			if (EnemiesSpawned >= 15)
+			if (StandardSpawnTimer > 1.5f && EnemiesSpawned < 20)
+			{
+				SpawnStandardEnemy();
+				EnemiesSpawned++;
+				StandardSpawnTimer = 0.0f;
+			}
+
+			if (EnemiesSpawned >= 20)
 			{
 				WaveIntermission = true;
 				UE_LOG(LogTemp, Warning, TEXT("Fourth Round is OVER!"));
@@ -111,12 +137,47 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 		case 5:
 
+			PacmanSpawnTimer += DeltaTime;
+			SpinningMeleeSpawnTimer += DeltaTime;
+			StraySpawnTimer += DeltaTime;
+
+			if (SpinningMeleeSpawnTimer > 4.0f && EnemiesSpawned < 40)
+			{
+				SpawnSpinningMeleeEnemy();
+				EnemiesSpawned++;
+				SpinningMeleeSpawnTimer = 0.0f;
+			}
+
+			if (PacmanSpawnTimer > 5.0f && EnemiesSpawned < 40)
+			{
+				SpawnPacmanEnemy();
+				EnemiesSpawned++;
+				PacmanSpawnTimer = 0.0f;
+			}
+
+			if (StraySpawnTimer > 6.0f && EnemiesSpawned < 40)
+			{
+				SpawnStrayEnemy();
+				EnemiesSpawned++;
+				StraySpawnTimer = 0.0f;
+			}
+
+			if (EnemiesSpawned >= 40)
+			{
+				WaveIntermission = true;
+				UE_LOG(LogTemp, Warning, TEXT("Fourth Round is OVER!"));
+			}
+
+			break;
+
+		case 6:
+
 			SpawnBossEnemy();
 			WaveNumber++;
 			UE_LOG(LogTemp, Warning, TEXT("Fifth Round is OVER!"));
 			break;
 
-		case 6:
+		case 7:
 
 			break;
 		}
@@ -143,7 +204,7 @@ void AGruppe_6_SAGNGameModeBase::SpawnStandardEnemy()
 {
 	World = GetWorld();
 
-	FVector Location = FVector(SpawnValues[rand()%2], SpawnValues[rand()%2], 0.0f);
+	FVector Location = FVector(SpawnValuesX[rand()%2], SpawnValuesY[rand()%2], 0.0f);
 
 	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
@@ -171,7 +232,7 @@ void AGruppe_6_SAGNGameModeBase::SpawnRandomEnemy()
 {
 	World = GetWorld();
 
-	FVector Location = FVector(SpawnValues[rand() % 2], SpawnValues[rand() % 2], 0.0f);
+	FVector Location = FVector(SpawnValuesX[rand() % 2], SpawnValuesY[rand() % 2], 0.0f);
 
 	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
@@ -185,7 +246,7 @@ void AGruppe_6_SAGNGameModeBase::SpawnStrayEnemy()
 {
 	World = GetWorld();
 
-	FVector Location = FVector(SpawnValues[rand() % 2], SpawnValues[rand() % 2], 0.0f);
+	FVector Location = FVector(SpawnValuesX[rand() % 2], SpawnValuesY[rand() % 2], 0.0f);
 
 	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 

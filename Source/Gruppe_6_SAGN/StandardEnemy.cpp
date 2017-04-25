@@ -8,6 +8,7 @@
 #include "P_Up_BulletRain.h"
 #include "P_Up_FullHealth.h"
 #include "P_Up_FireRate.h"
+#include "P_Up_CurvingBullet.h"
 
 AStandardEnemy::AStandardEnemy()
 {
@@ -160,15 +161,15 @@ void AStandardEnemy::SpawnPowerUp()
 	PowerUpRoll = rand() % 100 + 1;
 	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
 	if (PowerUpRoll > PowerUpProbability)
-	{	
-		MaxPowerUpTypes = rand() % 3 + 1;
+	{
+		MaxPowerUpTypes = rand() % 4 + 1;
 		switch (MaxPowerUpTypes)
 		{
 		case 1:
 
 			World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, FRotator::ZeroRotator);
 			break;
-			
+
 		case 2:
 
 			World->SpawnActor<AP_Up_FullHealth>(P_Up_FullHealth_BP, Location, FRotator::ZeroRotator);
@@ -177,6 +178,11 @@ void AStandardEnemy::SpawnPowerUp()
 		case 3:
 
 			World->SpawnActor<AP_Up_FireRate>(P_Up_FireRate_BP, Location, FRotator::ZeroRotator);
+			break;
+
+		case 4:
+
+			World->SpawnActor<AP_Up_CurvingBullet>(P_Up_CurvingBullet_BP, Location, FRotator::ZeroRotator);
 			break;
 
 		default:

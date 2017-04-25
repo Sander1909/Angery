@@ -2,10 +2,9 @@
 
 #pragma once
 
+#include "PlayerProjectile.h"
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerHit);
 
 UCLASS()
 class GRUPPE_6_SAGN_API APlayerCharacter : public ACharacter
@@ -37,9 +36,6 @@ public:
 	void SpawnBulletRain();
 	void CharacterFullHealth();
 	void BoostFireRate();
-
-	UPROPERTY(BlueprintAssignable)
-		FOnPlayerHit OnPlayerHit;
 
 	UFUNCTION()
 		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
@@ -76,6 +72,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* OnPowerUpSound;
 
+	class APlayerProjectile* PlayerProjectilePtr = nullptr;
+
 private:
 
 	float MeleeDashTimer;
@@ -85,8 +83,9 @@ private:
 	float FireRate = 0.2f;
 	float FireRateTimer;
 	float IFrameTimer;
+	float CurvingBulletTimer;
 
-	int Width = 2450;
+	int Width = 3900;
 	int Heigth = 2050;
 
 	bool bIsDead = false;
@@ -95,5 +94,6 @@ private:
 	bool bIsShooting = false;
 	bool bIsFireRate = false;
 	bool bIFrame = false;
+	bool bCurvingBullet = false;
 
 };

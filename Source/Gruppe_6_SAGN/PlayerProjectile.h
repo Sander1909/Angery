@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "PlayerCharacter.h"
 #include "GameFramework/Actor.h"
 #include "PlayerProjectile.generated.h"
 
@@ -30,9 +31,13 @@ public:
 			UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
 			bool bFromSweep, const FHitResult &SweepResult);
 
+	void SetCurvingBullet();
+	bool bCurvingBullet = false;
+
 private:
 	
 	float Speed = 4000.0f;
+	float CurvingBulletTimer = 0.0f;
 
 	float TimeToDestroy;
 	

@@ -54,7 +54,8 @@ public:
 
 private:
 
-	float SpawnValues[2]{ 2000.0f, -2000.0f };
+	float SpawnValuesX[2]{ 2000.0f, -2000.0f };
+	float SpawnValuesY[2]{ 3800.0f, -3800.0f };
 	float PacmanSpawnValues[2]{ 1000.0f, -1000.0f };
 
 	bool WaveIntermission = true;

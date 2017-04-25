@@ -11,6 +11,7 @@
 #include "P_Up_Bulletrain.h"
 #include "P_Up_FullHealth.h"
 #include "P_Up_FireRate.h"
+#include "P_Up_CurvingBullet.h"
 
 
 // Sets default values
@@ -65,6 +66,22 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	if (bCurvingBullet)
+	{
+		CurvingBulletTimer += DeltaTime;
+
+		if (PlayerProjectilePtr)
+		{
+			PlayerProjectilePtr->SetCurvingBullet();
+		}
+
+		if (CurvingBulletTimer > 10.0f)
+		{
+			bCurvingBullet = false;
+			CurvingBulletTimer = 0.0f;
+		}
+	}
+
 	if (bIsShooting)
 	{
 		ShootTimer += DeltaTime;
@@ -103,7 +120,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 	{
 		MeleeDelayTimer += DeltaTime;
 
-		if (MeleeDelayTimer > 1.0f)
+		if (MeleeDelayTimer > 2.0f)
 		{
 			MeleeDelayTimer = 0.0f;
 			bMeleeDelay = false;
@@ -143,7 +160,8 @@ void APlayerCharacter::Shoot()
 			bIsShooting = true;
 			UGameplayStatics::PlaySound2D(World, OnPlayerShootSound, 0.05f, 1.0f, 0.0f);
 			StartMinorCameraShake();
-			World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
+
+			PlayerProjectilePtr = World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
 		}
 	}
 }
@@ -262,6 +280,13 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
 		BoostFireRate();
+		OtherActor->Destroy();
+	}
+
+	else if (OtherActor->IsA(AP_Up_CurvingBullet::StaticClass()))
+	{
+		bCurvingBullet = true;
+		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
 		OtherActor->Destroy();
 	}
 
