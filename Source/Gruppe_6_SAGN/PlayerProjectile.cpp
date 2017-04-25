@@ -39,7 +39,7 @@ void APlayerProjectile::Tick( float DeltaTime )
 
 	TimeToDestroy += DeltaTime;
 
-	if (TimeToDestroy > 10.0f)
+	if (TimeToDestroy > 6.0f)
 	{
 		Destroy();
 	}
@@ -58,6 +58,8 @@ void APlayerProjectile::Tick( float DeltaTime )
 			CurvingBulletTimer = 0.0f;
 		}
 	}
+
+	CollisionBox->AddRelativeRotation(FRotator(0.0f, 10.0f, 0.0f), true);
 }
 
 void APlayerProjectile::SetProjectileLocation(float DeltaTime)

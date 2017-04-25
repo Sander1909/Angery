@@ -6,8 +6,6 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerHit);
-
 UCLASS()
 class GRUPPE_6_SAGN_API APlayerCharacter : public ACharacter
 {
@@ -38,9 +36,6 @@ public:
 	void SpawnBulletRain();
 	void CharacterFullHealth();
 	void BoostFireRate();
-
-	UPROPERTY(BlueprintAssignable)
-		FOnPlayerHit OnPlayerHit;
 
 	UFUNCTION()
 		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,

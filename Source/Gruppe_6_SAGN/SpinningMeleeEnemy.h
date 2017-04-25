@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AP_Up_FireRate> P_Up_FireRate_BP;
 
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AP_Up_CurvingBullet> P_Up_CurvingBullet_BP;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 		int Health = 4;

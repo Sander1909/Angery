@@ -120,7 +120,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 	{
 		MeleeDelayTimer += DeltaTime;
 
-		if (MeleeDelayTimer > 1.0f)
+		if (MeleeDelayTimer > 2.0f)
 		{
 			MeleeDelayTimer = 0.0f;
 			bMeleeDelay = false;
