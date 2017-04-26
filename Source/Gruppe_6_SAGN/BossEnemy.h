@@ -37,6 +37,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class ACurvingBossBullet> CurvingBossBullet_BP;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void ShowVictoryHUD();
+
 	void SpawnBulletWave(float DeltaTime);
 	void SpawnBulletStream(float DeltaTime);
 

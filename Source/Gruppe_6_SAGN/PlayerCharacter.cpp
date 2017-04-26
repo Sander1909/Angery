@@ -307,7 +307,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	if (Health < 1)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player has died."));
-		//UGameplayStatics::SetGamePaused(GetWorld(), true);
+		ShowDeadHUD();
 		bIsDead = true;
 	}
 }
@@ -343,6 +343,11 @@ void APlayerCharacter::StartCameraShake_Implementation()
 }
 
 void APlayerCharacter::StartMinorCameraShake_Implementation()
+{
+	//Same.
+}
+
+void APlayerCharacter::ShowDeadHUD_Implementation()
 {
 	//Same.
 }
