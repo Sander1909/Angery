@@ -112,6 +112,7 @@ void ABossEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *Oth
 		Health--;
 		if (Health < 0)
 		{
+			ShowVictoryHUD();
 			Destroy();
 		}
 		OtherActor->Destroy();
@@ -194,5 +195,10 @@ void ABossEnemy::SpawnBulletStream(float DeltaTime)
 		BossMode = 2;
 		StopStream = 0.0f;
 	}
+
+}
+
+void ABossEnemy::ShowVictoryHUD_Implementation()
+{
 
 }

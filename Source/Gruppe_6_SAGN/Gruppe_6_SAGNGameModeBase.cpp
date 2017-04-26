@@ -21,7 +21,7 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 
 	Super::BeginPlay();
 	//Remove comment below to set testing stage. (No enemies will spawn)
-	//WaveNumber = 7;
+	//WaveNumber = 5;
 
 }
 

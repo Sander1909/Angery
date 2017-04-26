@@ -57,6 +57,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "CameraShake")
 		void StartMinorCameraShake();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void ShowDeadHUD();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 		int Health = 10;
 
@@ -73,6 +76,9 @@ public:
 		USoundBase* OnPowerUpSound;
 
 	class APlayerProjectile* PlayerProjectilePtr = nullptr;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Animations")
+		bool bIsShooting = false;
 
 private:
 
@@ -91,7 +97,9 @@ private:
 	bool bIsDead = false;
 	bool bMeleeDash = false;
 	bool bMeleeDelay = false;
-	bool bIsShooting = false;
+
+	
+
 	bool bIsFireRate = false;
 	bool bIFrame = false;
 	bool bCurvingBullet = false;
