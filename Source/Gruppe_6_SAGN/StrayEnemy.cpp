@@ -23,6 +23,7 @@ void AStrayEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Add overlap function to class collision box.
 	CollisionBox = this->FindComponentByClass<UCapsuleComponent>();
 
 	if (CollisionBox)

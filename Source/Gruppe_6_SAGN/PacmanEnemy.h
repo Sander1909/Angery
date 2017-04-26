@@ -68,7 +68,7 @@ private:
 
 	int MovementMode = rand() %4+1;
 
-	float SwitchMode;
+	float SwitchTimer;
 	float SpawnTimer;
 	
 	float UpperX = 2000.0f;

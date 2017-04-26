@@ -19,6 +19,7 @@ void ABossEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Add overlap function to class collision box.
 	CollisionBox = this->FindComponentByClass<UCapsuleComponent>();
 
 	if (CollisionBox)
@@ -37,27 +38,33 @@ void ABossEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
+	//Calling standard movement functions.
 	MoveForward(DeltaTime);
 	RotateToPlayer();
 
+	//Boss acts differently in every mode.
 	switch (BossMode)
 	{
+
+		//Calls circular attack.
 	case 1:
 		SpawnBulletWave(DeltaTime);
 
 		break;
-	case 2:
 
-		//Attack buffer
+		//Pause between attacks.
+	case 2:
 		NewMode += DeltaTime;
 
-		if (NewMode > 4.0f)
+		//Sets new attack mode.
+		if (NewMode > 0.5f)
 		{
 			BossMode = NewModeArray[rand()%2];
 			NewMode = 0.0f;
 		}
 		break;
+
+		//Calls stream attack.
 	case 3:
 		SpawnBulletStream(DeltaTime);
 
@@ -126,10 +133,11 @@ void ABossEnemy::SpawnBulletWave(float DeltaTime)
 
 	FVector Location = GetActorLocation();
 
-	Location.Z = 10.0f;
+	Location.Z = 100.0f;
 
 	BulletWaveTimer += DeltaTime;
 
+	//Every second the boss fires 10 projectiles in a circle.
 	if (BulletWaveTimer > 1.0f)
 	{
 		for (int i = 0; i < 36; i++)
@@ -142,6 +150,7 @@ void ABossEnemy::SpawnBulletWave(float DeltaTime)
 		WavesSpawned++;
 	}
 
+	//Next mode.
 	if (WavesSpawned > 5)
 	{
 		BossMode = 2;
@@ -159,8 +168,9 @@ void ABossEnemy::SpawnBulletStream(float DeltaTime)
 	World = GetWorld();
 
 	FVector Location = GetActorLocation();
-	Location.Z = 10.0f;
+	Location.Z = 100.0f;
 
+	//Every 0.15 seconds the boss fires 4 bullets in a circular curve.
 	if (StreamDelay > 0.15f)
 	{
 		AddYawToStream = AddYawToStream + 10.0f;
@@ -178,6 +188,7 @@ void ABossEnemy::SpawnBulletStream(float DeltaTime)
 		StreamDelay = 0.0f;
 	}
 
+	//Next mode.
 	if (StopStream > 4.0f)
 	{
 		BossMode = 2;

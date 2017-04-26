@@ -24,6 +24,7 @@ void APacmanEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Add overlap function to class collision box.
 	CollisionBox = this->FindComponentByClass<UCapsuleComponent>();
 
 	if (CollisionBox)
@@ -43,12 +44,12 @@ void APacmanEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	SwitchMode += DeltaTime;
+	SwitchTimer += DeltaTime;
 
+	//Calling standard attack function.
 	SpawnStaticProjectile(DeltaTime);
 
-	//RotateToPlayer();
-
+	//Hit state duration.
 	if (bHitByProjectile)
 	{
 		HitByProjectileTimer += DeltaTime;
@@ -64,139 +65,160 @@ void APacmanEnemy::Tick(float DeltaTime)
 	{
 		switch (MovementMode)
 		{
+
+			//Moves up
 		case 1:
 
+			//Prevents walking into wall.
 			if (GetActorLocation().X > UpperX)
 			{
+				//Sets new movement mode. (Right or left from current direction)
 				MovementMode = Mode1[rand() % 2];
-				SwitchMode = 0.0f;
+				SwitchTimer = 0.0f;
 			}
 
 			MoveUp();
 
-			if (SwitchMode > 1.0f)
+			if (SwitchTimer > 1.0f)
 			{
-				//Er Pacman ved høyrevegg? Gå til venstre.
+				//If Pacman is by right wall, move left.
 				if (GetActorLocation().Y > UpperY)
 				{
 					MovementMode = 3;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
-				//Er Pacman ved venstrevegg? Gå til høyre.
+				//If Pacman is by left wall, move right.
 				else if (GetActorLocation().Y < LowerY)
 				{
 					MovementMode = 4;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
+				//Moves normally.
 				else
 				{
 					MovementMode = Mode1[rand() % 2];
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 			}
 
 			break;
 
+
+			//Moves down.
 		case 2:
 
+			//Prevents walking into wall.
 			if (GetActorLocation().X < LowerX)
 			{
+				//Sets new movement mode. (Right or left from current direction)
 				MovementMode = Mode2[rand() % 2];
-				SwitchMode = 0.0f;
+				SwitchTimer = 0.0f;
 			}
 
 			MoveDown();
 
-			if (SwitchMode > 1.0f)
+			if (SwitchTimer > 1.0f)
 			{
-				//Er Pacman ved høyrevegg? Gå til venstre.
+				//If Pacman is by right wall, move left.
 				if (GetActorLocation().Y > UpperY)
 				{
 					MovementMode = 3;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
-				//Er Pacman ved venstrevegg? Gå til høyre.
+				//If Pacman is by left wall, move right.
 				else if (GetActorLocation().Y < LowerY)
 				{
 					MovementMode = 4;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
+				//Move normally.
 				else
 				{
 					MovementMode = Mode2[rand() % 2];
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 			}
 			break;
 
+
+			//Moves left.
 		case 3:
 
+			//Prevents walking into wall.
 			if (GetActorLocation().Y < LowerY)
 			{
+				//Sets new movement mode. (Right or left from current direction)
 				MovementMode = Mode3[rand() % 2];
-				SwitchMode = 0.0f;
+				SwitchTimer = 0.0f;
 			}
 
 			MoveLeft();
 
-			if (SwitchMode > 1.0f)
+			if (SwitchTimer > 1.0f)
 			{
-				//Er Pacman ved øvre vegg? Gå ned.
+				//If Pacman is by upper wall, move down.
 				if (GetActorLocation().X > UpperX)
 				{
 					MovementMode = 2;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
-				//Er Pacman ved nedre vegg? Gå opp.
+				//If Pacman is by lower wall, move up.
 				else if (GetActorLocation().X < LowerX)
 				{
 					MovementMode = 1;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
+
+				//Move normally.
 				else
 				{
 					MovementMode = Mode3[rand() % 2];
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 			}
 			break;
 
+
+			//Moves right.
 		case 4:
 
+			//Prevents walking into wall.
 			if (GetActorLocation().Y > UpperY)
 			{
+				//Sets new movement mode. (Right or left from current direction)
 				MovementMode = Mode4[rand() % 2];
-				SwitchMode = 0.0f;
+				SwitchTimer = 0.0f;
 			}
 
 			MoveRight();
 
-			if (SwitchMode > 1.0f)
+			if (SwitchTimer > 1.0f)
 			{
-				//Er Pacman ved øvre vegg? Gå ned.
+				//If Pacman is by upper wall, go down.
 				if (GetActorLocation().X > UpperX)
 				{
 					MovementMode = 2;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
-				//Er Pacman ved nedre vegg? Gå opp.
+				//If Pacman is by lower wall, go up.
 				else if (GetActorLocation().X < LowerX)
 				{
 					MovementMode = 1;
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 
+				//Move normally.
 				else
 				{
 					MovementMode = Mode4[rand() % 2];
-					SwitchMode = 0.0f;
+					SwitchTimer = 0.0f;
 				}
 			}
 			break;

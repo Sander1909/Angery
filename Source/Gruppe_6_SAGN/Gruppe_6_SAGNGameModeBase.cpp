@@ -20,9 +20,8 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 {
 
 	Super::BeginPlay();
-	//Wave 7 gjør at spillet kan testes uten spawning.
-	//WaveNumber = 5;
-
+	//Remove comment below to set testing stage. (No enemies will spawn)
+	//WaveNumber = 7;
 
 }
 
@@ -30,11 +29,14 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);	
 
-
+	//Wont spawn enemies during wave intermission.
 	if (!WaveIntermission)
 	{
+		//Case number = wave.
 		switch (WaveNumber)
 		{
+
+			//Wave includes Standard enemies and spawn 15. 
 		case 1:
 
 			StandardSpawnTimer += DeltaTime;
@@ -45,7 +47,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 				EnemiesSpawned++;
 				StandardSpawnTimer = 0.0f;
 			}
-			//Kontrollerer hvor mange enemies som skal spawnes i waven, starter waveintermission.
+
 			if (EnemiesSpawned >= 15)
 			{
 				WaveIntermission = true;
@@ -54,6 +56,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			break;
 
+			//Wave includes Standard and Stray enemies, and spawn 20.
 		case 2:
 
 			StraySpawnTimer += DeltaTime;
@@ -81,6 +84,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			break;
 
+			//Wave includes Standard and Spinning enemies, and spawn 20.
 		case 3:
 
 			SpinningMeleeSpawnTimer += DeltaTime;
@@ -108,6 +112,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			break;
 
+			//Wave includes Standard and Pacman enemies, and spawn 20.
 		case 4:
 
 			PacmanSpawnTimer += DeltaTime;
@@ -135,6 +140,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 
 			break;
 
+			//Wave includes Pacman, Spinning and Stray enemies, and spawn 40.
 		case 5:
 
 			PacmanSpawnTimer += DeltaTime;
@@ -162,10 +168,11 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 				StraySpawnTimer = 0.0f;
 			}
 
+			//Custom intermission event in preparation for boss.
 			if (EnemiesSpawned >= 40)
 			{
 				WaveTimer += DeltaTime;
-				if (WaveTimer > 20.0f)
+				if (WaveTimer > 15.0f)
 				{
 					WaveNumber++;
 					WaveIntermission = false;
@@ -174,16 +181,16 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 					EnemiesSpawned = 0;
 					UGameplayStatics::PlaySound2D(GetWorld(), OnNextWaveSound, 0.5f, 1.0f, 0.0f);
 				}
-				UE_LOG(LogTemp, Warning, TEXT("Fourth Round is OVER!"));
+				UE_LOG(LogTemp, Warning, TEXT("Fifth Round is OVER!"));
 			}
 
 			break;
 
+			//Wave includes boss enemy.
 		case 6:
 
 			SpawnBossEnemy();
 			WaveNumber++;
-			UE_LOG(LogTemp, Warning, TEXT("Fifth Round is OVER!"));
 			break;
 
 		case 7:
@@ -192,6 +199,8 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 		}
 	}
 
+
+	//Wave intermission. Lasts for 10 seconds after the last enemy of a wave has been spawned.
 	else
 	{
 		WaveTimer += DeltaTime;
