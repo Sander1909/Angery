@@ -80,7 +80,7 @@ private:
 	float MeleeDelayTimer;
 	float Speed = 1000.0f;
 	float ShootTimer;
-	float FireRate = 0.2f;
+	float FireRate = 0.3f;
 	float FireRateTimer;
 	float IFrameTimer;
 	float CurvingBulletTimer;
