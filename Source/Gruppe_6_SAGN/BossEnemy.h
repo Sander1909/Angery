@@ -49,22 +49,14 @@ public:
 private:
 
 	float MovementValue = 20.0f;
-
 	float BulletWaveTimer;
-
-	int BossMode = 1;
-
-	int WavesSpawned;
-
 	float NewMode;
-
 	float StreamDelay;
-
 	float AddYawToStream;
-
 	float AddInvertedYawToStream;
-
 	float StopStream;
 
+	int BossMode = 1;
+	int WavesSpawned;
 	int NewModeArray[2] = { 1,3 };
 };

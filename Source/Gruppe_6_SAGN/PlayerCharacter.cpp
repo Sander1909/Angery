@@ -27,6 +27,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Add overlap function to class collision box.
 	CollisionBox = this->FindComponentByClass<UCapsuleComponent>();
 
 	if (CollisionBox)
@@ -38,14 +39,15 @@ void APlayerCharacter::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Player character no collision box"));
 
 	}
-
+	
+	//Possess player character.
 	APlayerController* MyController = GetWorld()->GetFirstPlayerController();
 
+	//Show cursor in game.
 	MyController->bShowMouseCursor = true;
 
+	//Set maximum movementspeed to Speed variable.
 	GetCharacterMovement()->MaxWalkSpeed = Speed;
-
-	//OnPlayerHit.Broadcast();
 	
 }
 
@@ -54,11 +56,14 @@ void APlayerCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	//Calling rotation function.
 	SetPlayerRotation();
 
+	//Invincibility frame duration.
 	if (bIFrame)
 	{
 		IFrameTimer += DeltaTime;
+
 		if (IFrameTimer >= 1.0f)
 		{
 			bIFrame = false;
@@ -66,6 +71,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	//Curving bullets duration.
 	if (bCurvingBullet)
 	{
 		CurvingBulletTimer += DeltaTime;
@@ -82,6 +88,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	//Run shoot function.
 	if (bIsShooting)
 	{
 		ShootTimer += DeltaTime;
@@ -93,6 +100,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	//Increased fire rate duration.
 	if (bIsFireRate)
 	{
 		FireRateTimer += DeltaTime;
@@ -104,6 +112,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	//Melee dash duration and sets movement speed.
 	if (bMeleeDash)
 	{
 		MeleeDashTimer += DeltaTime;
@@ -116,6 +125,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+	//Creates cooldown timer for melee dash ability.
 	if (bMeleeDelay)
 	{
 		MeleeDelayTimer += DeltaTime;
@@ -126,9 +136,6 @@ void APlayerCharacter::Tick( float DeltaTime )
 			bMeleeDelay = false;
 		}
 	}
-
-	//UE_LOG(LogTemp, Warning, TEXT("Player Health is %i"), Health);
-
 }
 
 // Called to bind functionality to input
@@ -146,6 +153,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void APlayerCharacter::Shoot()
 {
+	//Can't shoot if you're dead.
 	if (!bIsDead)
 	{
 		UWorld * World;
@@ -173,6 +181,7 @@ void APlayerCharacter::StopShoot()
 
 void APlayerCharacter::Melee()
 {
+	//Can't use melee dash if you're dead or on cooldown.
 	if (!bIsDead && !bMeleeDelay)
 	{
 		UWorld * World;
@@ -190,6 +199,7 @@ void APlayerCharacter::Melee()
 
 void APlayerCharacter::MoveX(float Value)
 {
+	//Can't move if you're dead.
 	if (!bIsDead)
 	{
 		FVector MoveX = FVector(1.0f, 0.0f, 0.0f);
@@ -199,6 +209,7 @@ void APlayerCharacter::MoveX(float Value)
 
 void APlayerCharacter::MoveY(float Value)
 {
+	//Can't move if you're dead.
 	if (!bIsDead)
 	{
 		FVector MoveY = FVector(0.0f, 1.0f, 0.0f);
@@ -210,9 +221,8 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult &SweepResult)
 {
-
-	//TODO Putte inn invulnerabilityframes
-	//SetVisibility = true/false;
+	//You won't get hurt if you are in melee dash or during invincibility frames.
+	//ENEMY ATTACKS
 
 	if (OtherActor->IsA(AStandardEnemyProjectile::StaticClass()))
 	{
@@ -262,6 +272,8 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		OtherActor->Destroy();
 	}
 
+	//POWERUPS
+
 	else if (OtherActor->IsA(AP_Up_BulletRain::StaticClass()))
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
@@ -290,6 +302,8 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		OtherActor->Destroy();
 	}
 
+	//Death event.
+
 	if (Health < 1)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player has died."));
@@ -300,8 +314,12 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 void APlayerCharacter::SetPlayerRotation()
 {
+
+	//Won't rotate if you're dead.
 	if (!bIsDead)
 	{
+
+		//Gets cursor location, and rotates player towards it. 
 		FHitResult Hit;
 		bool HitResult = false;
 		HitResult = GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_WorldStatic), true, Hit);
@@ -309,14 +327,11 @@ void APlayerCharacter::SetPlayerRotation()
 		if (HitResult)
 		{
 			FVector CursorLocation = Hit.Location;
-
-			//      UE_LOG(LogTemp, Warning, TEXT("Cursor location %s!"), *CursorLocation.ToString());
-
 			FVector TempLocation = FVector(CursorLocation.X, CursorLocation.Y, 30.f);
-
 			FVector NewDirection = TempLocation - GetActorLocation();
 			NewDirection.Z = 0.0f;
 			NewDirection.Normalize();
+
 			SetActorRotation(NewDirection.Rotation());
 		}
 	}
@@ -324,19 +339,19 @@ void APlayerCharacter::SetPlayerRotation()
 
 void APlayerCharacter::StartCameraShake_Implementation()
 {
-	//Skriver noe her så Sander ikke blir lei seg siden funksjonen er ensom, tom og irritert på innsiden.
+	//This one doesn't need content, but won't work without the function.
 }
 
 void APlayerCharacter::StartMinorCameraShake_Implementation()
 {
-	// :)
+	//Same.
 }
 
+//Spawns player bullets in a grid on the top of the map and run them down the map. 
 void APlayerCharacter::SpawnBulletRain()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Bullet Rain"));
-	UWorld * World;
 
+	UWorld * World;
 	World = GetWorld();
 
 	for (int y = -Width; y < Width; y += 100)

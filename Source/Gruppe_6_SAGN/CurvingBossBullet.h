@@ -21,7 +21,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	void MoveForward(float DeltaTime);
-	void CurveLeft();
+	void CurveRight();
 
 	UPROPERTY(EditAnywhere)
 		UShapeComponent * CollisionBox;
@@ -35,4 +35,5 @@ private:
 
 	float Speed = 1000.0f;
 	float TimeToDestroy;
+
 };

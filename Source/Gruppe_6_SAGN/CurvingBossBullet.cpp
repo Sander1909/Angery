@@ -17,6 +17,7 @@ void ACurvingBossBullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//Add overlap function to class collision box.
 	CollisionBox = this->FindComponentByClass<USphereComponent>();
 
 	if (CollisionBox)
@@ -37,8 +38,9 @@ void ACurvingBossBullet::Tick( float DeltaTime )
 
 	TimeToDestroy += DeltaTime;
 
+	//Calling standard movement functions.
 	MoveForward(DeltaTime);
-	CurveLeft();
+	CurveRight();
 
 	if (TimeToDestroy > 8.0f)
 	{
@@ -54,7 +56,7 @@ void ACurvingBossBullet::MoveForward(float DeltaTime)
 	SetActorLocation(NewLocation);
 }
 
-void ACurvingBossBullet::CurveLeft()
+void ACurvingBossBullet::CurveRight()
 {
 	FRotator NewRotation = GetActorRotation() + FRotator(0.0f, 0.25f, 0.0f);
 
