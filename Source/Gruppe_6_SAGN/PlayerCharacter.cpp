@@ -278,6 +278,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
 		SpawnBulletRain();
+		BulletStormAnnouncement();
 		OtherActor->Destroy();
 	}
 
@@ -285,6 +286,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
 		CharacterFullHealth();
+		FullRageAnnouncement();
 		OtherActor->Destroy();
 	}
 
@@ -292,6 +294,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
 		BoostFireRate();
+		FireRateAnnouncement();
 		OtherActor->Destroy();
 	}
 
@@ -299,6 +302,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		bCurvingBullet = true;
 		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
+		CurvingBulletAnnouncement();
 		OtherActor->Destroy();
 	}
 
@@ -351,6 +355,29 @@ void APlayerCharacter::ShowDeadHUD_Implementation()
 {
 	//Same.
 }
+
+void APlayerCharacter::FullRageAnnouncement_Implementation()
+{
+	//Same.
+}
+
+void APlayerCharacter::CurvingBulletAnnouncement_Implementation()
+{
+	//Same.
+}
+
+void APlayerCharacter::FireRateAnnouncement_Implementation()
+{
+	//Same.
+}
+
+void APlayerCharacter::BulletStormAnnouncement_Implementation()
+{
+	//Same.
+}
+
+
+
 
 //Spawns player bullets in a grid on the top of the map and run them down the map. 
 void APlayerCharacter::SpawnBulletRain()

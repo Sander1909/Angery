@@ -23,6 +23,8 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 	//Remove comment below to set testing stage. (No enemies will spawn)
 	//WaveNumber = 5;
 
+	//DynamicLighting = this->GetComponentByClass<ULightComponent>(TEXT("PointLight"));
+
 }
 
 void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
@@ -175,6 +177,11 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 				if (WaveTimer > 15.0f)
 				{
 					WaveNumber++;
+					/*if (DynamicLighting)
+					{
+						//FLinearColor MyColor = DynamicLighting->GetLightColor() + FColor(0.0f, 250.0f, 0.0f, 1.0f);
+						DynamicLighting->SetLightColor(FColor(10.0f, 250.0f, 10.0f, 1.0f), true);
+					}*/
 					WaveIntermission = false;
 					UE_LOG(LogTemp, Warning, TEXT("Next Wave had BEGUN!"));
 					WaveTimer = 0.0f;
