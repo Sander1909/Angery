@@ -42,6 +42,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* OnNextWaveSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lighting")
+		ULightComponent* DynamicLighting;
+
 	void SpawnStandardEnemy();
 	void SpawnPacmanEnemy();
 	void SpawnRandomEnemy();

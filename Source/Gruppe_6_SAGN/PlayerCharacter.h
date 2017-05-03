@@ -58,6 +58,18 @@ public:
 		void StartMinorCameraShake();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void FireRateAnnouncement();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void CurvingBulletAnnouncement();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void BulletStormAnnouncement();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void FullRageAnnouncement();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
 		void ShowDeadHUD();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
@@ -65,6 +77,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 		float MaxHealth = 10.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HUD")
+		float CurvingBulletTimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HUD")
+		float FireRateTimer;
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* OnPlayerShootSound;
@@ -87,9 +105,7 @@ private:
 	float Speed = 1000.0f;
 	float ShootTimer;
 	float FireRate = 0.3f;
-	float FireRateTimer;
 	float IFrameTimer;
-	float CurvingBulletTimer;
 
 	int Width = 3900;
 	int Heigth = 2050;
