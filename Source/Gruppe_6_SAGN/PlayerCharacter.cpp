@@ -276,7 +276,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	else if (OtherActor->IsA(AP_Up_BulletRain::StaticClass()))
 	{
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
+		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
 		SpawnBulletRain();
 		BulletStormAnnouncement();
 		OtherActor->Destroy();
@@ -284,7 +284,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	else if (OtherActor->IsA(AP_Up_FullHealth::StaticClass()))
 	{
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
+		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
 		CharacterFullHealth();
 		FullRageAnnouncement();
 		OtherActor->Destroy();
@@ -292,7 +292,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	else if (OtherActor->IsA(AP_Up_FireRate::StaticClass()))
 	{
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
+		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
 		BoostFireRate();
 		FireRateAnnouncement();
 		OtherActor->Destroy();
@@ -301,7 +301,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	else if (OtherActor->IsA(AP_Up_CurvingBullet::StaticClass()))
 	{
 		bCurvingBullet = true;
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 0.5f, 1.0f, 0.0f);
+		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
 		CurvingBulletAnnouncement();
 		OtherActor->Destroy();
 	}

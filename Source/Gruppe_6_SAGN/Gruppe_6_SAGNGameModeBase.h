@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "BossEnemy.h"
 #include "GameFramework/GameModeBase.h"
 #include "Gruppe_6_SAGNGameModeBase.generated.h"
 
@@ -45,6 +46,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Lighting")
 		ULightComponent* DynamicLighting;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void ShowVictoryHUD();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
+		void NextWaveAnnouncement();
+
+	class ABossEnemy * BossPtr = nullptr;
+
 	void SpawnStandardEnemy();
 	void SpawnPacmanEnemy();
 	void SpawnRandomEnemy();
@@ -65,6 +74,7 @@ private:
 
 	int WaveNumber = 0;
 	int EnemiesSpawned = 0;
+	int IsBossDeadInt = 0;
 
 	float WaveTimer;
 	float StandardSpawnTimer;

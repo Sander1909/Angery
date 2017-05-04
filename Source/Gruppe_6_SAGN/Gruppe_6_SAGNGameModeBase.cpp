@@ -31,6 +31,8 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);	
 
+	UE_LOG(LogTemp, Warning, TEXT("IsBossDead = %i"), IsBossDeadInt)
+
 	//Wont spawn enemies during wave intermission.
 	if (!WaveIntermission)
 	{
@@ -176,6 +178,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 				WaveTimer += DeltaTime;
 				if (WaveTimer > 15.0f)
 				{
+					NextWaveAnnouncement();
 					WaveNumber++;
 					/*if (DynamicLighting)
 					{
@@ -186,7 +189,7 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 					UE_LOG(LogTemp, Warning, TEXT("Next Wave had BEGUN!"));
 					WaveTimer = 0.0f;
 					EnemiesSpawned = 0;
-					UGameplayStatics::PlaySound2D(GetWorld(), OnNextWaveSound, 0.5f, 1.0f, 0.0f);
+					UGameplayStatics::PlaySound2D(GetWorld(), OnNextWaveSound, 1.5f, 1.0f, 0.0f);
 				}
 				UE_LOG(LogTemp, Warning, TEXT("Fifth Round is OVER!"));
 			}
@@ -201,6 +204,20 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 			break;
 
 		case 7:
+			
+			if (BossPtr)
+			{
+				BossPtr->IsBossDeadFunction(IsBossDeadInt);
+			}
+
+			if (IsBossDeadInt == 1)
+			{
+				ShowVictoryHUD();
+				WaveNumber++;
+			}
+			break;
+
+		case 8:
 
 			break;
 		}
@@ -213,12 +230,13 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 		WaveTimer += DeltaTime;
 		if (WaveTimer > 10.0f)
 		{
+			NextWaveAnnouncement();
 			WaveNumber++;
 			WaveIntermission = false;
 			UE_LOG(LogTemp, Warning, TEXT("Next Wave had BEGUN!"));
 			WaveTimer = 0.0f;
 			EnemiesSpawned = 0;
-			UGameplayStatics::PlaySound2D(GetWorld(), OnNextWaveSound, 0.5f, 1.0f, 0.0f);
+			UGameplayStatics::PlaySound2D(GetWorld(), OnNextWaveSound, 1.5f, 1.0f, 0.0f);
 		}
 	}
 
@@ -306,5 +324,16 @@ void AGruppe_6_SAGNGameModeBase::SpawnBossEnemy()
 	FVector NewDirection = PlayerLocation - Location;
 
 
-	World->SpawnActor<ABossEnemy>(BossEnemy_BP, Location, NewDirection.Rotation());
+	BossPtr = World->SpawnActor<ABossEnemy>(BossEnemy_BP, Location, NewDirection.Rotation());
 }
+
+void AGruppe_6_SAGNGameModeBase::ShowVictoryHUD_Implementation()
+{
+
+}
+
+void AGruppe_6_SAGNGameModeBase::NextWaveAnnouncement_Implementation()
+{
+
+}
+
