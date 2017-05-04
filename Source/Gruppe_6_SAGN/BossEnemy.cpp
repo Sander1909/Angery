@@ -112,11 +112,10 @@ void ABossEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *Oth
 		Health--;
 		if (Health < 0)
 		{
-			ShowVictoryHUD();
+			IsBossDead = 1;
 			Destroy();
 		}
 		OtherActor->Destroy();
-		UE_LOG(LogTemp, Warning, TEXT("Boss health: %i"), Health);
 	}
 }
 
@@ -198,7 +197,7 @@ void ABossEnemy::SpawnBulletStream(float DeltaTime)
 
 }
 
-void ABossEnemy::ShowVictoryHUD_Implementation()
+void ABossEnemy::IsBossDeadFunction(int &number)
 {
-
+	number = IsBossDead;
 }

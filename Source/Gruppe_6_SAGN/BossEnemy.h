@@ -37,11 +37,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class ACurvingBossBullet> CurvingBossBullet_BP;
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "HUD")
-		void ShowVictoryHUD();
-
 	void SpawnBulletWave(float DeltaTime);
 	void SpawnBulletStream(float DeltaTime);
+	void IsBossDeadFunction(int &number);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 		int Health = 100;
@@ -62,4 +60,5 @@ private:
 	int BossMode = 1;
 	int WavesSpawned;
 	int NewModeArray[2] = { 1,3 };
+	int IsBossDead = 0;
 };
