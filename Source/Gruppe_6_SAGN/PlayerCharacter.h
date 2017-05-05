@@ -93,9 +93,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* OnPowerUpSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
+		bool bMeleeDash = false;
+
 	class APlayerProjectile* PlayerProjectilePtr = nullptr;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Animations")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animations")
 		bool bIsShooting = false;
 
 private:
@@ -111,10 +114,7 @@ private:
 	int Heigth = 2050;
 
 	bool bIsDead = false;
-	bool bMeleeDash = false;
 	bool bMeleeDelay = false;
-
-	
 
 	bool bIsFireRate = false;
 	bool bIFrame = false;
