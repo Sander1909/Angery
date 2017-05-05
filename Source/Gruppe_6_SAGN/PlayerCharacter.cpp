@@ -78,7 +78,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 		if (PlayerProjectilePtr)
 		{
-			PlayerProjectilePtr->SetCurvingBullet();
+			//PlayerProjectilePtr->SetCurvingBullet();
 		}
 
 		if (CurvingBulletTimer > 10.0f)
@@ -117,7 +117,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 	{
 		MeleeDashTimer += DeltaTime;
 		GetCharacterMovement()->MaxWalkSpeed = 15000.0f;
-		if (MeleeDashTimer > 0.3f)
+		if (MeleeDashTimer > 0.25f)
 		{
 			bMeleeDash = false;
 			MeleeDashTimer = 0.0f;
@@ -170,6 +170,12 @@ void APlayerCharacter::Shoot()
 			StartMinorCameraShake();
 
 			PlayerProjectilePtr = World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
+
+			if (bCurvingBullet)
+			{
+				World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation() + FRotator(0.0f, 30.0f, 0.0f));
+				World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation() + FRotator(0.0f, -30.0f, 0.0f));
+			}
 		}
 	}
 }
