@@ -4,7 +4,8 @@
 #include "BossEnemy.h"
 #include "PlayerProjectile.h"
 #include "CurvingBossBullet.h"
-
+#include "StandardEnemyProjectile.h"
+#include "SpinningMeleeEnemyAttack.h"
 
 // Sets default values
 ABossEnemy::ABossEnemy()
@@ -38,9 +39,52 @@ void ABossEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (Health <= 50)
+	{
+		bIsEnraged = true;
+	}
+
 	//Calling standard movement functions.
 	MoveForward(DeltaTime);
 	RotateToPlayer();
+
+	if (bIsEnraged)
+	{
+		EnrageAttack1 += DeltaTime;
+		EnrageAttack2 += DeltaTime;
+
+		if (EnrageAttack1 >= 3.0f)
+		{
+			FRotator ProjectileRotation = GetActorRotation();
+			FRotator AddYaw = FRotator(0.0f, 30.0f, 0.0f);
+			FVector Location = GetActorLocation();
+			Location.Z = 10.0f;
+
+			for (int i = 0; i < 12; i++)
+			{
+
+				GetWorld()->SpawnActor<AStandardEnemyProjectile>(StandardEnemyProjectile_BP, Location, ProjectileRotation);
+
+				ProjectileRotation = ProjectileRotation + AddYaw;
+			}
+			EnrageAttack1 = 0.0f;
+
+		}
+
+		if (EnrageAttack2 >= 4.0f)
+		{
+
+			for (int i = 2000; i > -1800; i -= 200)
+			{
+				GetWorld()->SpawnActor<ASpinningMeleeEnemyAttack>(SpinningMeleeEnemyAttack_BP, FVector(i, 3400.0f, 10.0f), FRotator::ZeroRotator);
+			}
+			for (int i = 2000; i > -1800; i -= 200)
+			{
+				GetWorld()->SpawnActor<ASpinningMeleeEnemyAttack>(SpinningMeleeEnemyAttack_BP, FVector(i, -3400.0f, 10.0f), FRotator::ZeroRotator);
+			}
+			EnrageAttack2 = 0.0f;
+		}
+	}
 
 	//Boss acts differently in every mode.
 	switch (BossMode)
@@ -59,7 +103,7 @@ void ABossEnemy::Tick(float DeltaTime)
 		//Sets new attack mode.
 		if (NewMode > 0.5f)
 		{
-			BossMode = NewModeArray[rand()%2];
+			BossMode = NewModeArray[rand() % 2];
 			NewMode = 0.0f;
 		}
 		break;

@@ -21,7 +21,7 @@ void AGruppe_6_SAGNGameModeBase::BeginPlay()
 
 	Super::BeginPlay();
 	//Remove comment below to set testing stage. (No enemies will spawn)
-	//WaveNumber = 5;
+	//WaveNumber = 7;
 
 	//DynamicLighting = this->GetComponentByClass<ULightComponent>(TEXT("PointLight"));
 

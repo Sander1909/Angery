@@ -13,7 +13,6 @@
 AStandardEnemy::AStandardEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void AStandardEnemy::BeginPlay()
