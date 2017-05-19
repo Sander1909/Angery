@@ -16,9 +16,9 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -27,15 +27,21 @@ public:
 	void RotateToPlayer();
 
 	UFUNCTION()
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
-		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
-		bool bFromSweep, const FHitResult &SweepResult);
+		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
+			UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
+			bool bFromSweep, const FHitResult &SweepResult);
 
 	UPROPERTY(EditAnywhere)
 		UShapeComponent * CollisionBox = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class ACurvingBossBullet> CurvingBossBullet_BP;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AStandardEnemyProjectile> StandardEnemyProjectile_BP;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class ASpinningMeleeEnemyAttack> SpinningMeleeEnemyAttack_BP;
 
 	void SpawnBulletWave(float DeltaTime);
 	void SpawnBulletStream(float DeltaTime);
@@ -56,9 +62,13 @@ private:
 	float AddYawToStream;
 	float AddInvertedYawToStream;
 	float StopStream;
+	float EnrageAttack1;
+	float EnrageAttack2;
 
 	int BossMode = 1;
 	int WavesSpawned;
 	int NewModeArray[2] = { 1,3 };
 	int IsBossDead = 0;
+
+	bool bIsEnraged = false;
 };
