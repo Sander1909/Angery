@@ -51,6 +51,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class APlayerMeleeAttack> PlayerMeleeAttack_BP;
 
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<class AIFrameShield> IFrameShield_BP;
+
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "CameraShake")
 		void StartCameraShake();
 
@@ -73,10 +76,10 @@ public:
 		void ShowDeadHUD();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
-		int Health = 10;
+		int Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
-		float MaxHealth = 10.0f;
+		float MaxHealth;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HUD")
 		float CurvingBulletTimer;

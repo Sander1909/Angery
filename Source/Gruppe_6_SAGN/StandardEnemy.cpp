@@ -109,6 +109,8 @@ void AStandardEnemy::RotateToPlayer()
 
 	FVector NewDirection = PlayerLocation - GetActorLocation();
 
+	NewDirection.Z = 0.0f;
+
 	SetActorRotation(NewDirection.Rotation());
 
 	if (NewDirection.Size() <= ShootRange)
