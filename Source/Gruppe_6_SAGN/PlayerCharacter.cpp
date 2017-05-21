@@ -9,9 +9,10 @@
 #include "StaticProjectile.h"
 #include "SpinningMeleeEnemyAttack.h"
 #include "P_Up_Bulletrain.h"
-#include "P_Up_FullHealth.h"
+#include "P_Up_FullHealth.h"			
 #include "P_Up_FireRate.h"
 #include "P_Up_CurvingBullet.h"
+#include "IFrameShield.h"
 
 
 // Sets default values
@@ -20,6 +21,8 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Health = 10;
+	MaxHealth = 10.0f;
 }
 
 // Called when the game starts or when spawned
@@ -116,8 +119,8 @@ void APlayerCharacter::Tick( float DeltaTime )
 	if (bMeleeDash)
 	{
 		MeleeDashTimer += DeltaTime;
-		GetCharacterMovement()->MaxWalkSpeed = 15000.0f;
-		if (MeleeDashTimer > 0.25f)
+		GetCharacterMovement()->MaxWalkSpeed = 3000.0f;
+		if (MeleeDashTimer > 0.55f)
 		{
 			bMeleeDash = false;
 			MeleeDashTimer = 0.0f;
@@ -132,6 +135,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 		if (MeleeDelayTimer > 2.0f)
 		{
+			
 			MeleeDelayTimer = 0.0f;
 			bMeleeDelay = false;
 		}
@@ -235,6 +239,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (!bMeleeDash && !bIFrame)
 		{
 			bIFrame = true;
+			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
 			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
@@ -247,6 +252,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (!bMeleeDash && !bIFrame)
 		{
 			bIFrame = true;
+			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
 			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
@@ -259,6 +265,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (!bMeleeDash && !bIFrame)
 		{
 			bIFrame = true;
+			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
 			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
@@ -271,6 +278,7 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		if (!bMeleeDash && !bIFrame)
 		{
 			bIFrame = true;
+			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
 			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();

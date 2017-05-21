@@ -63,7 +63,7 @@ void ABossEnemy::Tick(float DeltaTime)
 			for (int i = 0; i < 12; i++)
 			{
 
-				GetWorld()->SpawnActor<AStandardEnemyProjectile>(StandardEnemyProjectile_BP, Location, ProjectileRotation);
+				GetWorld()->SpawnActor<ACurvingBossBullet>(CurvingBossBullet_BP, Location, ProjectileRotation);
 
 				ProjectileRotation = ProjectileRotation + AddYaw;
 			}
@@ -74,13 +74,13 @@ void ABossEnemy::Tick(float DeltaTime)
 		if (EnrageAttack2 >= 4.0f)
 		{
 
-			for (int i = 2000; i > -1800; i -= 200)
+			for (int i = 2000; i > -1800; i -= 350)
 			{
-				GetWorld()->SpawnActor<ASpinningMeleeEnemyAttack>(SpinningMeleeEnemyAttack_BP, FVector(i, 3400.0f, 10.0f), FRotator::ZeroRotator);
+				GetWorld()->SpawnActor<ASpinningMeleeEnemyAttack>(SpinningMeleeEnemyAttack_BP, FVector(i, 3600.0f, 10.0f), FRotator::ZeroRotator);
 			}
-			for (int i = 2000; i > -1800; i -= 200)
+			for (int i = 2000; i > -1800; i -= 350)
 			{
-				GetWorld()->SpawnActor<ASpinningMeleeEnemyAttack>(SpinningMeleeEnemyAttack_BP, FVector(i, -3400.0f, 10.0f), FRotator::ZeroRotator);
+				GetWorld()->SpawnActor<ASpinningMeleeEnemyAttack>(SpinningMeleeEnemyAttack_BP, FVector(i, -3600.0f, 10.0f), FRotator::ZeroRotator);
 			}
 			EnrageAttack2 = 0.0f;
 		}
