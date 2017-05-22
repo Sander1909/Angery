@@ -5,7 +5,6 @@
 #include "StandardEnemy.h"
 #include "SpinningMeleeEnemy.h"
 #include "PacmanEnemy.h"
-#include "RandomEnemy.h"
 #include "StrayEnemy.h"
 #include "BossEnemy.h"
 
@@ -264,6 +263,8 @@ void AGruppe_6_SAGNGameModeBase::SpawnPacmanEnemy()
 
 	FVector Location = FVector(PacmanSpawnValues[rand() % 2], PacmanSpawnValues[rand() % 2], 0.0f);
 
+	Location.Z = 100.0f;
+
 	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 
 	FVector NewDirection = PlayerLocation - Location;
@@ -272,19 +273,6 @@ void AGruppe_6_SAGNGameModeBase::SpawnPacmanEnemy()
 	World->SpawnActor<APacmanEnemy>(PacmanEnemy_BP, Location, FRotator::ZeroRotator);
 }
 
-void AGruppe_6_SAGNGameModeBase::SpawnRandomEnemy()
-{
-	World = GetWorld();
-
-	FVector Location = FVector(SpawnValuesX[rand() % 2], SpawnValuesY[rand() % 2], 0.0f);
-
-	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-
-	FVector NewDirection = PlayerLocation - Location;
-
-
-	World->SpawnActor<ARandomEnemy>(RandomEnemy_BP, Location, NewDirection.Rotation());
-}
 
 void AGruppe_6_SAGNGameModeBase::SpawnStrayEnemy()
 {

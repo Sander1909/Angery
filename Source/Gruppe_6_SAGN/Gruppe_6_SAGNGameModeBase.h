@@ -32,9 +32,6 @@ public:
 		TSubclassOf<class APacmanEnemy> PacmanEnemy_BP;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class ARandomEnemy> RandomEnemy_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AStrayEnemy> StrayEnemy_BP;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
@@ -56,7 +53,6 @@ public:
 
 	void SpawnStandardEnemy();
 	void SpawnPacmanEnemy();
-	void SpawnRandomEnemy();
 	void SpawnStrayEnemy();
 	void SpawnSpinningMeleeEnemy();
 	void SpawnBossEnemy();

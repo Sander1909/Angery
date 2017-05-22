@@ -98,7 +98,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 				//Moves normally.
 				else
 				{
-					MovementMode = Mode1[rand() % 2];
+					MovementMode = Mode1[rand() % 3];
 					SwitchTimer = 0.0f;
 				}
 			}
@@ -138,7 +138,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 				//Move normally.
 				else
 				{
-					MovementMode = Mode2[rand() % 2];
+					MovementMode = Mode2[rand() % 3];
 					SwitchTimer = 0.0f;
 				}
 			}
@@ -178,7 +178,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 				//Move normally.
 				else
 				{
-					MovementMode = Mode3[rand() % 2];
+					MovementMode = Mode3[rand() % 3];
 					SwitchTimer = 0.0f;
 				}
 			}
@@ -217,7 +217,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 				//Move normally.
 				else
 				{
-					MovementMode = Mode4[rand() % 2];
+					MovementMode = Mode4[rand() % 3];
 					SwitchTimer = 0.0f;
 				}
 			}
@@ -254,7 +254,7 @@ void APacmanEnemy::Tick(float DeltaTime)
 void APacmanEnemy::MoveUp()
 {
 	FVector MoveUp = FVector(1.0f, 0.0f, 0.0f);
-	//FRotator LookUp = FRotator(0.0f, 90.0f, 0.0f);
+
 	if (!bHitByProjectile)
 	{
 		AddMovementInput(MoveUp, MovementValue);

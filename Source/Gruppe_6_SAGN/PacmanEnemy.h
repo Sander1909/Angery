@@ -80,9 +80,9 @@ private:
 	int PowerUpProbability = 90;
 	int MaxPowerUpTypes;
 
-	int Mode1[2] = {3,4};
-	int Mode2[2] = {3,4};
-	int Mode3[2] = {1,2};
-	int Mode4[2] = {1,2};
+	int Mode1[3] = {1,3,4};
+	int Mode2[3] = {2,3,4};
+	int Mode3[3] = {3,1,2};
+	int Mode4[3] = {4,1,2};
 	
 };
