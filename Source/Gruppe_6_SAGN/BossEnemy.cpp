@@ -48,6 +48,7 @@ void ABossEnemy::Tick(float DeltaTime)
 	MoveForward(DeltaTime);
 	RotateToPlayer();
 
+	//Add more attacks when health is below 50.
 	if (bIsEnraged)
 	{
 		EnrageAttack1 += DeltaTime;

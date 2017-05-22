@@ -71,15 +71,17 @@ private:
 	float SwitchTimer;
 	float SpawnTimer;
 	
+	//Coordinates for spawning.
 	float UpperX = 2000.0f;
 	float LowerX = -2000.0f;
 	float UpperY = 3800.0f;
 	float LowerY = -3800.0f;
 
-	int PowerUpRoll = 0;
+	int PowerUpRoll;
 	int PowerUpProbability = 90;
 	int MaxPowerUpTypes;
 
+	//Used to decide new direction.
 	int Mode1[3] = {1,3,4};
 	int Mode2[3] = {2,3,4};
 	int Mode3[3] = {3,1,2};

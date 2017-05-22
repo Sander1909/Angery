@@ -74,15 +74,10 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
-	//Curving bullets duration.
+	//Tripleshot duration. Replaced Curving Bullet.
 	if (bCurvingBullet)
 	{
 		CurvingBulletTimer += DeltaTime;
-
-		if (PlayerProjectilePtr)
-		{
-			//PlayerProjectilePtr->SetCurvingBullet();
-		}
 
 		if (CurvingBulletTimer > 10.0f)
 		{
@@ -173,8 +168,9 @@ void APlayerCharacter::Shoot()
 			UGameplayStatics::PlaySound2D(World, OnPlayerShootSound, 0.05f, 1.0f, 0.0f);
 			StartMinorCameraShake();
 
-			PlayerProjectilePtr = World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
+			World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
 
+			//Tripleshot function in the works.
 			if (bCurvingBullet)
 			{
 				World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation() + FRotator(0.0f, 30.0f, 0.0f));

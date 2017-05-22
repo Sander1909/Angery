@@ -24,6 +24,7 @@ void AIFrameShield::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Follows the player.
 	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation());
 	
 	DestructionTimer += DeltaTime;

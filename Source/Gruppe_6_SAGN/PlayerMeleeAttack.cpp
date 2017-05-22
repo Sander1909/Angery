@@ -24,6 +24,7 @@ void APlayerMeleeAttack::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	//Follows the player.
 	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation());
 
 	TimeToDestroy += DeltaTime;
@@ -32,8 +33,4 @@ void APlayerMeleeAttack::Tick( float DeltaTime )
 		Destroy();
 	}
 
-}
-void APlayerMeleeAttack::SetAttackLocation()
-{
-	SetActorLocation(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation());
 }

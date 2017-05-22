@@ -44,9 +44,7 @@ void ASpinningMeleeEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//UE_LOG(LogTemp, Warning, TEXT("Move is %f"), MovementValue);
-
-
+	//Keeps track of when to attack and when to move.
 	SwitchModeTimer += DeltaTime;
 
 	if (bHitByProjectile)
@@ -142,6 +140,7 @@ void ASpinningMeleeEnemy::SpawnAttack(float DeltaTime)
 	UWorld * World;
 	World = GetWorld();
 
+	//Does a neat spin.
 	FRotator ActorRotation = GetActorRotation() + FRotator(0.0f, 3.2f, 0.0f);
 	SetActorRotation(ActorRotation);
 
@@ -171,8 +170,6 @@ void ASpinningMeleeEnemy::SpawnPowerUp()
 
 	FVector Location = GetActorLocation();
 	Location.Z = 100.0f;
-
-	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
 
 	PowerUpRoll = rand() % 100 + 1;
 	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
