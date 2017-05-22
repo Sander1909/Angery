@@ -17,13 +17,7 @@ AGruppe_6_SAGNGameModeBase::AGruppe_6_SAGNGameModeBase()
 
 void AGruppe_6_SAGNGameModeBase::BeginPlay()
 {
-
 	Super::BeginPlay();
-	//Remove comment below to set testing stage. (No enemies will spawn)
-	//WaveNumber = 7;
-
-	//DynamicLighting = this->GetComponentByClass<ULightComponent>(TEXT("PointLight"));
-
 }
 
 void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
@@ -179,11 +173,6 @@ void AGruppe_6_SAGNGameModeBase::Tick(float DeltaTime)
 				{
 					NextWaveAnnouncement();
 					WaveNumber++;
-					/*if (DynamicLighting)
-					{
-						//FLinearColor MyColor = DynamicLighting->GetLightColor() + FColor(0.0f, 250.0f, 0.0f, 1.0f);
-						DynamicLighting->SetLightColor(FColor(10.0f, 250.0f, 10.0f, 1.0f), true);
-					}*/
 					WaveIntermission = false;
 					UE_LOG(LogTemp, Warning, TEXT("Next Wave had BEGUN!"));
 					WaveTimer = 0.0f;
@@ -314,6 +303,9 @@ void AGruppe_6_SAGNGameModeBase::SpawnBossEnemy()
 
 	BossPtr = World->SpawnActor<ABossEnemy>(BossEnemy_BP, Location, NewDirection.Rotation());
 }
+
+
+//For creating custom events in blueprint.
 
 void AGruppe_6_SAGNGameModeBase::ShowVictoryHUD_Implementation()
 {

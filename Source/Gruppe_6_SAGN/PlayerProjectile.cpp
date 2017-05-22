@@ -27,7 +27,6 @@ void APlayerProjectile::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerProjectile no collision box"));
-
 	}
 }
 
@@ -45,21 +44,7 @@ void APlayerProjectile::Tick( float DeltaTime )
 		Destroy();
 	}
 
-	if (bCurvingBullet)
-	{
-		CurvingBulletTimer += DeltaTime;
-
-		FRotator Temp = FRotator(0.0f, 5.0f, 0.0f) + GetActorRotation();
-
-		SetActorRotation(Temp);
-
-		if (CurvingBulletTimer > 10.0f)
-		{
-			bCurvingBullet = false;
-			CurvingBulletTimer = 0.0f;
-		}
-	}
-
+	//Spins the newspaper without changing its direction. 
 	CollisionBox->AddRelativeRotation(FRotator(0.0f, 10.0f, 0.0f), true);
 }
 
@@ -80,15 +65,5 @@ void APlayerProjectile::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	if (OtherActor->IsRootComponentStatic())
 	{
 		Destroy();
-	}
-}
-
-void APlayerProjectile::SetCurvingBullet()
-{
-	bCurvingBullet = true;
-	UE_LOG(LogTemp, Warning, TEXT("Curving Bullet SET!"));
-	if (bCurvingBullet)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Curving Bullet is true!"))
 	}
 }

@@ -340,10 +340,11 @@ void APacmanEnemy::SpawnPowerUp()
 	FVector Location = GetActorLocation();
 	Location.Z = 100.0f;
 
-	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
-
+	//Rolls for powerup.
 	PowerUpRoll = rand() % 100 + 1;
 	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
+	
+	//If the roll is higher than the threshold, spawn a random powerup.
 	if (PowerUpRoll > PowerUpProbability)
 	{
 		MaxPowerUpTypes = rand() % 4 + 1;
@@ -385,7 +386,7 @@ void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *O
 		bHitByProjectile = true;
 		if (Health < 1)
 		{
-			//SpawnPowerUp();
+			SpawnPowerUp();
 			Destroy();
 		}
 		OtherActor->Destroy();
@@ -395,6 +396,7 @@ void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *O
 		Health--;
 		if (Health < 1)
 		{
+			SpawnPowerUp();
 			Destroy();
 		}
 

@@ -37,6 +37,8 @@ public:
 	void CharacterFullHealth();
 	void BoostFireRate();
 
+	//See Category for what UPROPERTY is used for.
+
 	UFUNCTION()
 		void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
 			UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
