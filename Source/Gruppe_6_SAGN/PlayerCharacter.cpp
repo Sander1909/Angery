@@ -8,10 +8,7 @@
 #include "CurvingBossBullet.h"
 #include "StaticProjectile.h"
 #include "SpinningMeleeEnemyAttack.h"
-#include "P_Up_Bulletrain.h"
-#include "P_Up_FullHealth.h"			
-#include "P_Up_FireRate.h"
-#include "P_Up_CurvingBullet.h"
+
 #include "IFrameShield.h"
 
 
@@ -165,17 +162,10 @@ void APlayerCharacter::Shoot()
 		if (World)
 		{
 			bIsShooting = true;
-			UGameplayStatics::PlaySound2D(World, OnPlayerShootSound, 0.05f, 1.0f, 0.0f);
 			StartMinorCameraShake();
 
 			World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation());
 
-			//Tripleshot function in the works.
-			if (bCurvingBullet)
-			{
-				World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation() + FRotator(0.0f, 30.0f, 0.0f));
-				World->SpawnActor<APlayerProjectile>(PlayerProjectile_BP, Location, GetActorRotation() + FRotator(0.0f, -30.0f, 0.0f));
-			}
 		}
 	}
 }
@@ -237,7 +227,6 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			bIFrame = true;
 			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
-			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
 		}
 		OtherActor->Destroy();
@@ -250,7 +239,6 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			bIFrame = true;
 			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
-			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
 		}
 		OtherActor->Destroy();
@@ -263,7 +251,6 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			bIFrame = true;
 			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
-			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
 		}
 		OtherActor->Destroy();
@@ -276,47 +263,10 @@ void APlayerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			bIFrame = true;
 			GetWorld()->SpawnActor<AIFrameShield>(IFrameShield_BP, GetActorLocation(), FRotator::ZeroRotator);
 			Health--;
-			UGameplayStatics::PlaySound2D(GetWorld(), OnPlayerHitSound, 0.5f, 1.0f, 0.0f);
 			StartCameraShake();
 		}
 		OtherActor->Destroy();
 	}
-
-	//POWERUPS
-
-	else if (OtherActor->IsA(AP_Up_BulletRain::StaticClass()))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
-		SpawnBulletRain();
-		BulletStormAnnouncement();
-		OtherActor->Destroy();
-	}
-
-	else if (OtherActor->IsA(AP_Up_FullHealth::StaticClass()))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
-		CharacterFullHealth();
-		FullRageAnnouncement();
-		OtherActor->Destroy();
-	}
-
-	else if (OtherActor->IsA(AP_Up_FireRate::StaticClass()))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
-		BoostFireRate();
-		FireRateAnnouncement();
-		OtherActor->Destroy();
-	}
-
-	else if (OtherActor->IsA(AP_Up_CurvingBullet::StaticClass()))
-	{
-		bCurvingBullet = true;
-		UGameplayStatics::PlaySound2D(GetWorld(), OnPowerUpSound, 1.0f, 1.0f, 0.0f);
-		CurvingBulletAnnouncement();
-		OtherActor->Destroy();
-	}
-
-	//Death event.
 
 	if (Health < 1)
 	{

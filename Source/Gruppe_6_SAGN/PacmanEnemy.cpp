@@ -5,10 +5,6 @@
 #include "StaticProjectile.h"
 #include "PlayerMeleeAttack.h"
 #include "PlayerProjectile.h"
-#include "P_Up_BulletRain.h"
-#include "P_Up_FullHealth.h"
-#include "P_Up_FireRate.h"
-#include "P_Up_CurvingBullet.h"
 
 
 // Sets default values
@@ -331,50 +327,7 @@ void APacmanEnemy::SpawnStaticProjectile(float DeltaTime)
 
 }
 
-void APacmanEnemy::SpawnPowerUp()
-{
-	UWorld * World;
 
-	World = GetWorld();
-
-	FVector Location = GetActorLocation();
-	Location.Z = 100.0f;
-
-	//Rolls for powerup.
-	PowerUpRoll = rand() % 100 + 1;
-	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
-	
-	//If the roll is higher than the threshold, spawn a random powerup.
-	if (PowerUpRoll > PowerUpProbability)
-	{
-		MaxPowerUpTypes = rand() % 4 + 1;
-		switch (MaxPowerUpTypes)
-		{
-		case 1:
-
-			World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		case 2:
-
-			World->SpawnActor<AP_Up_FullHealth>(P_Up_FullHealth_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		case 3:
-
-			World->SpawnActor<AP_Up_FireRate>(P_Up_FireRate_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		case 4:
-
-			World->SpawnActor<AP_Up_CurvingBullet>(P_Up_CurvingBullet_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		default:
-			break;
-		}
-	}
-}
 
 void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
@@ -386,7 +339,6 @@ void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *O
 		bHitByProjectile = true;
 		if (Health < 1)
 		{
-			SpawnPowerUp();
 			Destroy();
 		}
 		OtherActor->Destroy();
@@ -396,7 +348,6 @@ void APacmanEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *O
 		Health--;
 		if (Health < 1)
 		{
-			SpawnPowerUp();
 			Destroy();
 		}
 

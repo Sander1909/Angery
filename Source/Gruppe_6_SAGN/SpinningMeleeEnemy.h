@@ -31,18 +31,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class ASpinningMeleeEnemyAttack> SpinningMeleeEnemyAttack_BP;
 
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_BulletRain> P_Up_BulletRain_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_FullHealth> P_Up_FullHealth_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_FireRate> P_Up_FireRate_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_CurvingBullet> P_Up_CurvingBullet_BP;
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 		int Health = 4;
@@ -53,7 +41,6 @@ public:
 	void MoveForward(float DeltaTime);
 	void SetEnemyRotation();
 	void SpawnAttack(float DeltaTime);
-	void SpawnPowerUp();
 
 
 private:

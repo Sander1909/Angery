@@ -26,22 +26,10 @@ public:
 	void MoveRight();
 
 	void SpawnStaticProjectile(float DeltaTime);
-	void SpawnPowerUp();
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<class AStaticProjectile> StaticProjectile_BP;
 
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_BulletRain> P_Up_BulletRain_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_FullHealth> P_Up_FullHealth_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_FireRate> P_Up_FireRate_BP;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<class AP_Up_CurvingBullet> P_Up_CurvingBullet_BP;
 
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,

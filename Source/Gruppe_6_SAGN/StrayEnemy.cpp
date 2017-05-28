@@ -5,10 +5,6 @@
 #include "StandardEnemyProjectile.h"
 #include "PlayerMeleeAttack.h"
 #include "PlayerProjectile.h"
-#include "P_Up_BulletRain.h"
-#include "P_Up_FullHealth.h"
-#include "P_Up_FireRate.h"
-#include "P_Up_CurvingBullet.h"
 
 // Sets default values
 AStrayEnemy::AStrayEnemy()
@@ -138,49 +134,7 @@ void AStrayEnemy::SpawnProjectile()
 
 }
 
-void AStrayEnemy::SpawnPowerUp()
-{
-	UWorld * World;
 
-	World = GetWorld();
-
-	FVector Location = GetActorLocation();
-	Location.Z = 100.0f;
-
-	//FRotator P_Up_Rotation = FRotator(45.0f, 45.0f, 45.0f);
-
-	PowerUpRoll = rand() % 100 + 1;
-	UE_LOG(LogTemp, Warning, TEXT("Powerup roll is: %i"), PowerUpRoll);
-	if (PowerUpRoll > PowerUpProbability)
-	{
-		MaxPowerUpTypes = rand() % 4 + 1;
-		switch (MaxPowerUpTypes)
-		{
-		case 1:
-
-			World->SpawnActor<AP_Up_BulletRain>(P_Up_BulletRain_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		case 2:
-
-			World->SpawnActor<AP_Up_FullHealth>(P_Up_FullHealth_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		case 3:
-
-			World->SpawnActor<AP_Up_FireRate>(P_Up_FireRate_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		case 4:
-
-			World->SpawnActor<AP_Up_CurvingBullet>(P_Up_CurvingBullet_BP, Location, FRotator::ZeroRotator);
-			break;
-
-		default:
-			break;
-		}
-	}
-}
 
 void AStrayEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor,
 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex,
@@ -192,7 +146,6 @@ void AStrayEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *Ot
 		bHitByProjectile = true;
 		if (Health < 1)
 		{	
-			SpawnPowerUp();
 			Destroy();
 		}
 		OtherActor->Destroy();
